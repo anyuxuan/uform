@@ -1,6 +1,7 @@
 import * as React from 'react'
 import classNames from 'classnames'
 import styled from 'styled-components'
+import { SchemaForm, Field } from '@uform/react'
 
 const Container = styled.div`
   &.preview-panel {
@@ -16,6 +17,9 @@ const PreviewPanel = props => {
   return (
     <Container className={wrapperCls} {...others}>
       预览区
+      <SchemaForm>
+        <Field type="string" title="姓名" name="name" />
+      </SchemaForm>
     </Container>
   )
 }

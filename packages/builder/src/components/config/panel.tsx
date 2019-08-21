@@ -7,6 +7,14 @@ const Container = styled.div`
     width: 280px;
     background: #ffffff;
     border-left: 1px solid rgba(31, 56, 88, 0.1);
+
+    .header {
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid rgba(31, 56, 88, 0.1);
+    }
   }
 `
 
@@ -16,7 +24,7 @@ const ConfigPanel = props => {
 
   return (
     <Container className={wrapperCls} {...others}>
-      配置区
+      <div className="header">配置区</div>
     </Container>
   )
 }

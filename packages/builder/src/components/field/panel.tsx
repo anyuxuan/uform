@@ -9,10 +9,11 @@ const Container = styled.div`
     min-height: 100vh;
     position: fixed;
     left: 48px;
+    z-index: 3;
     border-right: 1px solid rgba(31, 56, 88, 0.1);
     background: #ffffff;
 
-    .title {
+    .header {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -56,7 +57,7 @@ const FieldPanel = props => {
 
   return (
     <Container className={wrapperCls} {...others}>
-      <div className="title">组件</div>
+      <div className="header">组件</div>
       <div className="field-area">
         {Object.entries(componentsMap).map(([name, data]) => (
           <div key={name} className="field-item">
