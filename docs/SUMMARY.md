@@ -57,4 +57,4 @@
      - [解构字段数据](./Examples/next/Deconstruction.md)
 - [知乎专栏](https://zhuanlan.zhihu.com/uform)
 - [GitHub](https://github.com/alibaba/uform)
-<!--- [PlayGround DEMO](../packages/builder/src/demo/index-1-x.js)-->
+- [PlayGround DEMO](../packages/builder-plugin-antd/src/demo/index.js)
