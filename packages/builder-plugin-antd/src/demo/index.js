@@ -4,22 +4,25 @@ import {
   PreviewPanel,
   ConfigPanel,
   BasicLayout,
-  BuilderContext
+  BuilderContextProvider,
+  createBuilderActions
 } from '../../src'
 
 import 'antd/dist/antd.min.css'
+
+const actions = createBuilderActions()
 
 class Demo extends React.Component {
   render() {
     return (
       <div className="demo-container">
-        <BuilderContext.Provider>
+        <BuilderContextProvider actions={actions}>
           <BasicLayout>
             <FieldPanel />
             <PreviewPanel />
             <ConfigPanel />
           </BasicLayout>
-        </BuilderContext.Provider>
+        </BuilderContextProvider>
       </div>
     )
   }
