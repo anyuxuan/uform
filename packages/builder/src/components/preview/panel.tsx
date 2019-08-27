@@ -1,14 +1,7 @@
 import * as React from 'react'
 import classNames from 'classnames'
-import styled from 'styled-components'
 import { SchemaForm, Field } from '@uform/react'
-
-const Container = styled.div`
-  &.preview-panel {
-    flex: 1;
-    min-height: 100vh;
-  }
-`
+import { Container } from './style'
 
 const PreviewPanel = props => {
   const { className, ...others } = props

@@ -30,6 +30,7 @@
     "@uform/react": "^0.3.11",
     "classnames": "^2.2.6",
     "moment": "^2.24.0",
+    "react-eva": "^1.1.5",
     "styled-components": "^4.3.2"
   },
   "devDependencies": {
