@@ -1,18 +1,18 @@
 import * as React from 'react'
 import classNames from 'classnames'
-import { SchemaForm, Field } from '@uform/react'
+import { SchemaForm } from '@uform/react'
 import { Container } from './style'
+import { BuilderContext } from '../../shared'
 
 const PreviewPanel = props => {
+  const { actions, effects, schema } = React.useContext(BuilderContext)
   const { className, ...others } = props
   const wrapperCls = classNames('preview-panel', className)
 
   return (
     <Container className={wrapperCls} {...others}>
       预览区
-      <SchemaForm>
-        <Field type="string" title="姓名" name="name" />
-      </SchemaForm>
+      <SchemaForm schema={schema} actions={actions} effects={effects} />
     </Container>
   )
 }

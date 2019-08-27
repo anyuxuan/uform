@@ -2,51 +2,81 @@ import * as React from 'react'
 import { useEva, createEffects } from 'react-eva'
 import { BuilderContext } from './shared'
 
+let nameId = 0
+
+const DEFAULT_SCHEMA = {
+  type: 'object',
+  properties: {}
+}
+
 const App = props => {
-  const getEffects = effects => {
+  const [schema, setSchema] = React.useState(DEFAULT_SCHEMA)
+
+  const updateSchema = React.useCallback(properties => {
+    if (!properties) return
+    setSchema(schema => ({
+      ...schema,
+      properties: {
+        ...schema.properties,
+        ...properties
+      }
+    }))
+  }, [])
+
+  const { children, actions, effects } = props
+  const combineEffects = effects => {
     return createEffects($ => {
       if (effects && typeof effects === 'function') {
         effects($)
       }
-      $('onAddField').subscribe(() => {
-        // console.log('onAddField')
+      $('onAddField').subscribe(fieldType => {
+        // console.log('onAddField', fieldType)
+        const name = fieldType + nameId++
+        updateSchema({
+          [name]: {
+            type: fieldType,
+            title: '开关'
+          }
+        })
+      })
+      $('onFormInit').subscribe(() => {
+        // console.log('onFormInit')
+      })
+      $('onFormMount').subscribe(() => {
+        // console.log('onFormMount')
+      })
+      $('onTest').subscribe(() => {
+        // console.log('onTest')
       })
     })
   }
-
-  const { children, actions, effects } = props
-  // 将传入和effect与默认的effects合并
-  const combinedEffects = getEffects(effects)
+  // 将传入的effects与默认的effects合并
+  const combinedEffects = combineEffects(effects)
   const { implementActions, dispatch } = useEva({
     actions,
     effects: combinedEffects
   })
-  const [contextValue, setContextValue] = React.useState(null)
-
-  const initActions = () => {
-    implementActions({
-      addField: () => {
-        dispatch('onAddField')
-      }
-    })
-  }
-
-  const initContext = () => {
-    setContextValue({
-      actions,
-      effects: combinedEffects
-    })
-  }
 
   React.useEffect(() => {
-    initActions()
-    initContext()
-    dispatch('onBuilderMount')
+    implementActions({
+      addField: fieldType => dispatch('onAddField', fieldType),
+      dispatch
+    })
   }, [])
 
+  const context = React.useMemo(
+    () => ({
+      actions,
+      effects: combinedEffects,
+      dispatch,
+      schema
+    }),
+    [actions, combinedEffects, dispatch, schema]
+  )
+
   return (
-    <BuilderContext.Provider value={contextValue}>
-      {contextValue && children}
+    <BuilderContext.Provider value={context}>
+      {context && children}
     </BuilderContext.Provider>
   )
 }
