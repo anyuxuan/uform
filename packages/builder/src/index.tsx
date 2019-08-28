@@ -1,6 +1,8 @@
 import { createActions, createAsyncActions } from 'react-eva'
 import { createFormActions, createAsyncFormActions } from '@uform/react'
 
+import './initialize'
+
 export * from '@uform/react'
 
 export * from './components'

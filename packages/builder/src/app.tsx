@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useEva, createEffects } from 'react-eva'
-import { BuilderContext } from './shared'
+import { BuilderContext, getDetaulSchema } from './shared'
 
 let nameId = 0
 
@@ -13,7 +13,9 @@ const App = props => {
   const [schema, setSchema] = React.useState(DEFAULT_SCHEMA)
 
   const updateSchema = React.useCallback(properties => {
-    if (!properties) return
+    if (!properties) {
+      return
+    }
     setSchema(schema => ({
       ...schema,
       properties: {
@@ -31,12 +33,9 @@ const App = props => {
       }
       $('onAddField').subscribe(fieldType => {
         // console.log('onAddField', fieldType)
-        const name = fieldType + nameId++
+        const name = `${fieldType}_${nameId++}`
         updateSchema({
-          [name]: {
-            type: fieldType,
-            title: '开关'
-          }
+          [name]: getDetaulSchema(fieldType)
         })
       })
       $('onFormInit').subscribe(() => {
