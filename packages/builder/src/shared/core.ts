@@ -53,4 +53,4 @@ export const registerDefaultSchema = (name: string, schema: ISchema): void => {
   DEFAULT_SCHEMA[name] = schema
 }
 
-export const getDetaulSchema = (name: string): ISchema => DEFAULT_SCHEMA[name]
+export const getDefaultSchema = (name: string): ISchema => DEFAULT_SCHEMA[name]
