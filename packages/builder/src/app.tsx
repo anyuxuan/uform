@@ -1,42 +1,34 @@
 import * as React from 'react'
 import { useEva, createEffects } from 'react-eva'
+import { isEmpty, isFn } from '@uform/utils'
 import { BuilderContext, getDefaultSchema } from './shared'
+import { useSchema, SCHEMA_ACTIONS } from './hooks'
 
 let nameId = 0
 
-const DEFAULT_SCHEMA = {
-  type: 'object',
-  properties: {}
-}
-
 const App = props => {
-  const [schema, setSchema] = React.useState(DEFAULT_SCHEMA)
-
-  const updateSchema = React.useCallback(properties => {
-    if (!properties) {
-      return
-    }
-    setSchema(schema => ({
-      ...schema,
-      properties: {
-        ...schema.properties,
-        ...properties
-      }
-    }))
-  }, [])
+  const [schema, dispatchSchemaAction] = useSchema()
 
   const { children, actions, effects } = props
   const combineEffects = effects => {
     return createEffects($ => {
-      if (effects && typeof effects === 'function') {
+      if (!isEmpty(effects) && isFn(effects)) {
         effects($)
       }
       $('onAddField').subscribe(fieldType => {
-        // console.log('onAddField', fieldType)
         const name = `${fieldType}_${nameId++}`
-        updateSchema({
-          [name]: getDefaultSchema(fieldType)
+        dispatchSchemaAction({
+          type: SCHEMA_ACTIONS.ADD,
+          payload: {
+            [name]: getDefaultSchema(fieldType)
+          }
         })
+      })
+      $('onDeleteField').subscribe(fieldType => {
+        // console.log('onDeleteField', fieldType)
+      })
+      $('onAlterField').subscribe(fieldType => {
+        // console.log('onAlterField', fieldType)
       })
       $('onFormInit').subscribe(() => {
         // console.log('onFormInit')
@@ -67,10 +59,9 @@ const App = props => {
     () => ({
       actions,
       effects: combinedEffects,
-      dispatch,
       schema
     }),
-    [actions, combinedEffects, dispatch, schema]
+    [actions, combinedEffects, schema]
   )
 
   return (

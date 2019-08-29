@@ -12,6 +12,7 @@ const FieldPanel = props => {
 
   const onClickItem = fieldType => {
     actions.addField(fieldType)
+    actions.dispatch('onTest')
   }
 
   return (
