@@ -1,6 +1,6 @@
 {
   "name": "@uform/builder-plugin-next",
-  "version": "0.3.11",
+  "version": "0.4.0-beta.0",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -22,6 +22,12 @@
     "@babel/runtime": "^7.4.4",
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"
+  },
+  "dependencies": {
+    "@uform/builder": "^0.4.0-beta.0"
+  },
+  "devDependencies": {
+    "typescript": "^3.5.2"
   },
   "publishConfig": {
     "access": "public"
