@@ -1,10 +1,12 @@
 import * as React from 'react'
-import { useEva, createEffects } from 'react-eva'
+import { createEffects, useEva } from 'react-eva'
 import { isEmpty, isFn } from '@uform/utils'
 import { BuilderContext, getDefaultSchema } from './shared'
-import { useSchema, SCHEMA_ACTIONS } from './hooks'
+import { SCHEMA_ACTIONS, useSchema } from './hooks'
 
 let nameId = 0
+// 控制字段的显示顺序
+let index = 0
 
 const App = props => {
   const [schema, dispatchSchemaAction] = useSchema()
@@ -20,11 +22,18 @@ const App = props => {
         dispatchSchemaAction({
           type: SCHEMA_ACTIONS.ADD,
           payload: {
-            [name]: getDefaultSchema(fieldType)
+            [name]: {
+              ...getDefaultSchema(fieldType),
+              'x-index': index++
+            }
           }
         })
       })
       $('onDeleteField').subscribe(fieldType => {
+        dispatchSchemaAction({
+          type: SCHEMA_ACTIONS.DELETE,
+          payload: fieldType
+        })
         // console.log('onDeleteField', fieldType)
       })
       $('onAlterField').subscribe(fieldType => {

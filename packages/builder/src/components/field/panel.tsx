@@ -1,7 +1,6 @@
 import * as React from 'react'
 import classNames from 'classnames'
-import { getComponents } from '../../shared'
-import { BuilderContext } from '../../shared'
+import { getComponents, BuilderContext } from '../../shared'
 import { Container } from './style'
 
 const FieldPanel = props => {
@@ -10,10 +9,10 @@ const FieldPanel = props => {
   const componentsMap = getComponents()
   const wrapperCls = classNames('field-panel', className)
 
-  const onClickItem = fieldType => {
+  const onClickItem = React.useCallback(fieldType => {
     actions.addField(fieldType)
     actions.dispatch('onTest')
-  }
+  }, [])
 
   return (
     <Container className={wrapperCls} {...others}>
