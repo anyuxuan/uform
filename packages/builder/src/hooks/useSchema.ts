@@ -19,6 +19,7 @@ const DEFAULT_SCHEMA: ISchema = {
 }
 
 const reducer: React.Reducer<ISchema, IAction> = (state, action) => {
+  const properties = {}
   switch (action.type) {
     case SCHEMA_ACTIONS.ADD:
       return {
@@ -29,22 +30,31 @@ const reducer: React.Reducer<ISchema, IAction> = (state, action) => {
         }
       }
     case SCHEMA_ACTIONS.DELETE:
-      const properties = Object.entries(state.properties).reduce(
-        (prev, curr) => {
-          const [key, value] = curr
-          if (key !== action.payload) {
-            prev[key] = value
-          }
-          return prev
-        },
-        {}
-      )
+      Object.entries(state.properties).forEach(([key, value]) => {
+        if (key !== action.payload) {
+          properties[key] = value
+        }
+      })
       return {
         ...state,
         properties
       }
     case SCHEMA_ACTIONS.ALTER:
-      return state
+      const { fieldType, data } = action.payload
+      Object.entries(state.properties).forEach(([key, value]) => {
+        if (key === fieldType) {
+          properties[key] = {
+            ...value,
+            ...data
+          }
+        } else {
+          properties[key] = value
+        }
+      })
+      return {
+        ...state,
+        properties
+      }
     case SCHEMA_ACTIONS.GET:
       return state
     default:

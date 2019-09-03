@@ -5,11 +5,12 @@ import { BuilderContext } from '../../shared'
 
 const ConfigPanel = props => {
   const { className, ...others } = props
-  const { actions } = React.useContext(BuilderContext)
+  const { actions, global } = React.useContext(BuilderContext)
+  const { currentField } = global
   const wrapperCls = classNames('config-panel', className)
 
   const deleteSchema = React.useCallback(() => {
-    actions.dispatch('onDeleteField', 'checkbox_0')
+    actions.deleteField(currentField)
   }, [])
 
   return (

@@ -10,6 +10,7 @@ let index = 0
 
 const App = props => {
   const [schema, dispatchSchemaAction] = useSchema()
+  const [currentField, setCurrentField] = React.useState('')
 
   const { children, actions, effects } = props
   const combineEffects = effects => {
@@ -36,8 +37,14 @@ const App = props => {
         })
         // console.log('onDeleteField', fieldType)
       })
-      $('onAlterField').subscribe(fieldType => {
-        // console.log('onAlterField', fieldType)
+      $('onAlterField').subscribe((fieldType, data) => {
+        dispatchSchemaAction({
+          type: SCHEMA_ACTIONS.ALTER,
+          payload: {
+            fieldType,
+            data
+          }
+        })
       })
       $('onFormInit').subscribe(() => {
         // console.log('onFormInit')
@@ -57,20 +64,34 @@ const App = props => {
     effects: combinedEffects
   })
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     implementActions({
       addField: fieldType => dispatch('onAddField', fieldType),
+      deleteField: fieldType => dispatch('onDeleteField', fieldType),
+      alterField: (fieldType, data) => {
+        dispatch('onAlterField', fieldType, data)
+      },
+      clickField: fieldType => setCurrentField(fieldType),
       dispatch
     })
   }, [])
+
+  // 一些全局状态
+  const global = React.useMemo(
+    () => ({
+      currentField
+    }),
+    [currentField]
+  )
 
   const context = React.useMemo(
     () => ({
       actions,
       effects: combinedEffects,
-      schema
+      schema,
+      global
     }),
-    [actions, combinedEffects, schema]
+    [actions, combinedEffects, schema, global]
   )
 
   return (
