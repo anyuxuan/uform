@@ -6,12 +6,12 @@ import { Container } from './style'
 const ASIDE_CONFIG = [
   {
     type: 'fieldPanel',
-    icon: 'https://img.alicdn.com/tfs/TB1Sbkle2b2gK0jSZK9XXaEgFXa-200-200.svg',
+    icon: 'https://img.alicdn.com/tfs/TB1yp7qe1T2gK0jSZFvXXXnFXXa-32-32.svg',
     desc: '组件库'
   },
   {
     type: 'codePanel',
-    icon: 'https://img.alicdn.com/tfs/TB1SHEne4v1gK0jSZFFXXb0sXXa-200-200.svg',
+    icon: 'https://img.alicdn.com/tfs/TB1rtQweYj1gK0jSZFOXXc7GpXa-32-32.svg',
     desc: '源码'
   }
 ]

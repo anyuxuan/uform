@@ -7,6 +7,8 @@ export const Container = styled.div`
     z-index: 3;
     border-right: 1px solid rgba(31, 56, 88, 0.1);
     background: #ffffff;
+    max-height: 100%;
+    overflow-y: scroll;
 
     .header {
       display: flex;
@@ -29,6 +31,13 @@ export const Container = styled.div`
         flex-direction: column;
         cursor: grab;
         width: 80px;
+        height: 88px;
+        border-radius: 3px;
+
+        &:hover {
+          background: rgba(31, 56, 88, 0.1);
+          transition: background-color 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
 
         .icon {
           width: 24px;

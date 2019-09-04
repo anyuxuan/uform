@@ -5,6 +5,8 @@ export const Container = styled.div`
     width: 280px;
     background: #ffffff;
     border-left: 1px solid rgba(31, 56, 88, 0.1);
+    max-height: 100%;
+    overflow-y: scroll;
 
     .header {
       height: 36px;

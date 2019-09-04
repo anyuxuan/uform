@@ -11,7 +11,6 @@ const PreviewPanel = props => {
 
   return (
     <Container className={wrapperCls} {...others}>
-      预览区
       <SchemaForm schema={schema} actions={actions} effects={effects} />
     </Container>
   )

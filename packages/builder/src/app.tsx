@@ -44,7 +44,6 @@ const App = props => {
           type: SCHEMA_ACTIONS.DELETE,
           payload: fieldType
         })
-        // console.log('onDeleteField', fieldType)
       })
       $('onAlterField').subscribe((fieldType, data) => {
         dispatchSchemaAction({
