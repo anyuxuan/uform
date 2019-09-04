@@ -1,12 +1,14 @@
 import * as React from 'react'
 import classNames from 'classnames'
-import { SchemaForm } from '@uform/react'
+import { SchemaForm, createFormActions } from '@uform/react'
 import { Container } from './style'
 import { BuilderContext, getConfig } from '../../shared'
 
+const formActions = createFormActions()
+
 const ConfigPanel = props => {
   const { className, ...others } = props
-  const { actions, effects, global } = React.useContext(BuilderContext)
+  const { global } = React.useContext(BuilderContext)
   const { currentField } = global
   const wrapperCls = classNames('config-panel', className)
 
@@ -15,15 +17,15 @@ const ConfigPanel = props => {
     if (!renderer) {
       return null
     }
-    return renderer({ actions })
+    return renderer({ actions: formActions })
   }, [currentField])
 
   return (
     <Container className={wrapperCls} {...others}>
       <div className="header">配置区</div>
-      <SchemaForm actions={actions} effects={effects}>
-        {ConfigField}
-      </SchemaForm>
+      <div className="container">
+        <SchemaForm actions={formActions}>{ConfigField}</SchemaForm>
+      </div>
     </Container>
   )
 }

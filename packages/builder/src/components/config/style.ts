@@ -13,5 +13,9 @@ export const Container = styled.div`
       justify-content: center;
       border-bottom: 1px solid rgba(31, 56, 88, 0.1);
     }
+
+    .container {
+      padding: 20px;
+    }
   }
 `

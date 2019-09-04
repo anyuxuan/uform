@@ -1,12 +1,6 @@
 import * as React from 'react'
 import classNames from 'classnames'
-import styled from 'styled-components'
-
-const Container = styled.div`
-  &.basic-layout {
-    display: flex;
-  }
-`
+import { Container } from './style'
 
 const BasicLayout = props => {
   const { className, children, ...others } = props

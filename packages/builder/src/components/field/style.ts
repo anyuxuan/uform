@@ -2,10 +2,8 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   &.field-panel {
+    display: ${props => (props.visible ? 'block' : 'none')};
     width: 300px;
-    min-height: 100vh;
-    position: fixed;
-    left: 48px;
     z-index: 3;
     border-right: 1px solid rgba(31, 56, 88, 0.1);
     background: #ffffff;

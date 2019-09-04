@@ -4,7 +4,8 @@ import { getComponents, BuilderContext } from '../../shared'
 import { Container } from './style'
 
 const FieldPanel = props => {
-  const { actions } = React.useContext(BuilderContext)
+  const { actions, global } = React.useContext(BuilderContext)
+  const { panelVisibleMap } = global
   const { className, ...others } = props
   const componentsMap = getComponents()
   const wrapperCls = classNames('field-panel', className)
@@ -15,7 +16,11 @@ const FieldPanel = props => {
   }, [])
 
   return (
-    <Container className={wrapperCls} {...others}>
+    <Container
+      className={wrapperCls}
+      {...others}
+      visible={panelVisibleMap.fieldPanel}
+    >
       <div className="header">组件</div>
       <div className="field-area">
         {Object.entries(componentsMap).map(([name, data]) => (

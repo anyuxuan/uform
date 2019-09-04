@@ -8,9 +8,18 @@ let nameId = 0
 // 控制字段的显示顺序
 let index = 0
 
+// 所有面板的初始状态
+const INITIAL_PANEL_VISIBLE_MAP = {
+  fieldPanel: false,
+  codePanel: false
+}
+
 const App = props => {
   const [schema, dispatchSchemaAction] = useSchema()
   const [currentField, setCurrentField] = React.useState('')
+  const [panelVisibleMap, setPanelVisibleMap] = React.useState(
+    INITIAL_PANEL_VISIBLE_MAP
+  )
 
   const { children, actions, effects } = props
   const combineEffects = effects => {
@@ -52,8 +61,21 @@ const App = props => {
       $('onFormMount').subscribe(() => {
         // console.log('onFormMount')
       })
-      $('onTest').subscribe(() => {
-        // console.log('onTest')
+      $('onSetPanelVisible').subscribe(type => {
+        // 将当前操作的面板状态置反，其他面板状态设置为false
+        setPanelVisibleMap(visibleMap =>
+          Object.entries(visibleMap).reduce(
+            (prev, [key, value]) => {
+              if (key === type) {
+                prev[key] = !value
+              } else {
+                prev[key] = false
+              }
+              return prev
+            },
+            {} as any
+          )
+        )
       })
     })
   }
@@ -79,9 +101,10 @@ const App = props => {
   // 一些全局状态
   const global = React.useMemo(
     () => ({
-      currentField
+      currentField,
+      panelVisibleMap
     }),
-    [currentField]
+    [currentField, panelVisibleMap]
   )
 
   const context = React.useMemo(
