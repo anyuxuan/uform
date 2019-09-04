@@ -11,7 +11,7 @@ const FieldPanel = props => {
 
   const onClickItem = React.useCallback(fieldType => {
     actions.addField(fieldType)
-    actions.dispatch('onTest')
+    actions.clickField(fieldType)
   }, [])
 
   return (

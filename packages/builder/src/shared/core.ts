@@ -1,3 +1,4 @@
+import * as React from 'react'
 import { ISchema } from '@uform/types'
 
 interface IComponentData {
@@ -14,6 +15,8 @@ interface IComponentMap {
 interface IDefaultSchema {
   [k: string]: ISchema
 }
+
+type IConfig = (params: any) => React.ReactElement
 
 const FIELDS_MAP: IComponentMap = {}
 const CONFIG_MAP = {}
@@ -35,7 +38,7 @@ export const getComponents = (): IComponentMap => FIELDS_MAP
 
 // 注册组件的配置项
 // TODO: 确定配置项参数
-export const registerConfig = (name: string, config: any): void => {
+export const registerConfig = (name: string, config: IConfig): void => {
   if (!name) {
     return
   }
@@ -46,10 +49,12 @@ export const getConfig = (name: string): any => {
   return CONFIG_MAP[name]
 }
 
-// 注册默认的schema属性，拖拽左侧组件后，会用该默认schema生成一个Field
+// 注册默认的schema属性，拖拽左侧组件后，会用注册的默认schema在预览区域生成一个Field
 // name参数与注册的组件中的x-component属性对应
 export const registerDefaultSchema = (name: string, schema: ISchema): void => {
-  if (!name) return
+  if (!name) {
+    return
+  }
   DEFAULT_SCHEMA[name] = schema
 }
 
