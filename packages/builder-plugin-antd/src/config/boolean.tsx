@@ -4,6 +4,19 @@ import { registerConfig } from '@uform/builder'
 
 registerConfig('boolean', ({ actions }) => (
   <React.Fragment>
-    <Field type="string" title="默认开关" name="switch" x-component="boolean" />
+    <Field
+      type="string"
+      title="默认开关"
+      name="switch"
+      x-component="boolean"
+      x-effect={dispatch => ({
+        onChange(checked) {
+          // console.log(checked, 'checked')
+        }
+      })}
+      x-props={{
+        from: 'config'
+      }}
+    />
   </React.Fragment>
 ))

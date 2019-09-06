@@ -9,16 +9,16 @@ const formActions = createFormActions()
 const ConfigPanel = props => {
   const { className, ...others } = props
   const { global } = React.useContext(BuilderContext)
-  const { currentField } = global
+  const { currentFieldType } = global
   const wrapperCls = classNames('config-panel', className)
 
   const ConfigField = React.useMemo(() => {
-    const renderer = getConfig(currentField)
+    const renderer = getConfig(currentFieldType)
     if (!renderer) {
       return null
     }
     return renderer({ actions: formActions })
-  }, [currentField])
+  }, [currentFieldType])
 
   return (
     <Container className={wrapperCls} {...others}>

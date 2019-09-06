@@ -9,6 +9,9 @@ registerConfig('checkbox', ({ actions }) => (
       title="默认选中项"
       name="switch"
       x-component="checkbox"
+      x-props={{
+        from: 'config'
+      }}
     />
   </React.Fragment>
 ))

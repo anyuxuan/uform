@@ -16,7 +16,8 @@ const INITIAL_PANEL_VISIBLE_MAP = {
 
 const App = props => {
   const [schema, dispatchSchemaAction] = useSchema()
-  const [currentField, setCurrentField] = React.useState('')
+  const [currentFieldName, setCurrentFieldName] = React.useState('')
+  const [currentFieldType, setCurrentFieldType] = React.useState('')
   const [panelVisibleMap, setPanelVisibleMap] = React.useState(
     INITIAL_PANEL_VISIBLE_MAP
   )
@@ -92,7 +93,10 @@ const App = props => {
       alterField: (fieldType, data) => {
         dispatch('onAlterField', fieldType, data)
       },
-      clickField: fieldType => setCurrentField(fieldType),
+      clickField: ({ name, type }) => {
+        setCurrentFieldName(name)
+        setCurrentFieldType(type)
+      },
       dispatch
     })
   }, [])
@@ -100,10 +104,11 @@ const App = props => {
   // 一些全局状态
   const global = React.useMemo(
     () => ({
-      currentField,
+      currentFieldName,
+      currentFieldType,
       panelVisibleMap
     }),
-    [currentField, panelVisibleMap]
+    [currentFieldName, currentFieldType, panelVisibleMap]
   )
 
   const context = React.useMemo(

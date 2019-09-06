@@ -11,7 +11,16 @@ const PreviewPanel = props => {
 
   return (
     <Container className={wrapperCls} {...others}>
-      <SchemaForm schema={schema} actions={actions} effects={effects} />
+      <SchemaForm
+        schema={schema}
+        actions={actions}
+        effects={$ => {
+          effects($)
+          $('onClickField').subscribe(fieldOptions => {
+            actions.clickField(fieldOptions)
+          })
+        }}
+      />
     </Container>
   )
 }

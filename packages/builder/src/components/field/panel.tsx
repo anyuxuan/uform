@@ -10,10 +10,12 @@ const FieldPanel = props => {
   const componentsMap = getComponents()
   const wrapperCls = classNames('field-panel', className)
 
-  const onClickItem = React.useCallback(fieldType => {
-    actions.addField(fieldType)
-    actions.clickField(fieldType)
-  }, [])
+  const onClickItem = React.useCallback(
+    fieldType => () => {
+      actions.addField(fieldType)
+    },
+    []
+  )
 
   return (
     <Container
@@ -27,7 +29,7 @@ const FieldPanel = props => {
           <div
             key={name}
             className="field-item"
-            onClick={() => onClickItem(data['x-component'])}
+            onClick={onClickItem(data['x-component'])}
           >
             <img className="icon" src={data.icon} alt={name} />
             <div className="label">{data.label}</div>
