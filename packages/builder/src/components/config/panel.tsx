@@ -2,7 +2,7 @@ import * as React from 'react'
 import classNames from 'classnames'
 import { SchemaForm, createFormActions } from '@uform/react'
 import { Container } from './style'
-import { BuilderContext, getConfig } from '../../shared'
+import { BuilderContext, connectProps, getConfig } from '../../shared'
 
 const formActions = createFormActions()
 
@@ -17,7 +17,12 @@ const ConfigPanel = props => {
     if (!renderer) {
       return null
     }
-    return renderer({ actions: formActions })
+    const element = renderer({ actions: formActions })
+    return connectProps({
+      'x-props': {
+        from: 'config'
+      }
+    })(element)
   }, [currentFieldType])
 
   return (

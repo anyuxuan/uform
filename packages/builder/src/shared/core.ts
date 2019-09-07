@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { ISchema } from '@uform/types'
+import { recursiveReactElement } from '../utils'
 
 interface IComponentData {
   label: string
@@ -14,6 +15,10 @@ interface IComponentMap {
 
 interface IDefaultSchema {
   [k: string]: ISchema
+}
+
+interface IConnectedProps {
+  [k: string]: any
 }
 
 type IConfig = (params: any) => React.ReactElement
@@ -37,7 +42,6 @@ export const getComponent = (name: string): IComponentData | undefined => {
 export const getComponents = (): IComponentMap => FIELDS_MAP
 
 // 注册组件的配置项
-// TODO: 确定配置项参数
 export const registerConfig = (name: string, config: IConfig): void => {
   if (!name) {
     return
@@ -47,6 +51,20 @@ export const registerConfig = (name: string, config: IConfig): void => {
 
 export const getConfig = (name: string): any => {
   return CONFIG_MAP[name]
+}
+
+export const connectProps = (props?: IConnectedProps) => (
+  element: React.ReactElement
+) => {
+  if (!React.isValidElement(element)) {
+    return null
+  }
+  return recursiveReactElement(element, child =>
+    React.cloneElement(child, {
+      ...child.props,
+      ...props
+    })
+  )
 }
 
 // 注册默认的schema属性，拖拽左侧组件后，会用注册的默认schema在预览区域生成一个Field

@@ -14,9 +14,6 @@ registerConfig('boolean', ({ actions }) => (
           // console.log(checked, 'checked')
         }
       })}
-      x-props={{
-        from: 'config'
-      }}
     />
   </React.Fragment>
 ))
