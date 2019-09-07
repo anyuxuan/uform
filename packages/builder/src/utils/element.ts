@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-type RecursiveCallback = <T extends React.ReactElement>(child: T) => T
+type RecursiveCallback = (child: React.ReactElement) => any
 
 export const recursiveReactElement = (
   element: React.ReactElement,
