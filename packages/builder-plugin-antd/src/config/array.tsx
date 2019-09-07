@@ -4,7 +4,19 @@ import { registerConfig } from '@uform/builder'
 
 registerConfig('array', ({ actions }) => (
   <React.Fragment>
-    <Field type="string" title="标题" name="title" />
+    <Field
+      type="string"
+      title="标题"
+      name="title"
+      x-effect={dispatch => ({
+        onChange(e) {
+          const { value } = e.target
+          dispatch('onAlterPreviewField', {
+            title: value
+          })
+        }
+      })}
+    />
     <Field
       type="string"
       title="显示标题"

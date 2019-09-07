@@ -18,11 +18,13 @@ const App = props => {
   const [schema, dispatchSchemaAction] = useSchema()
   const [currentFieldName, setCurrentFieldName] = React.useState('')
   const [currentFieldType, setCurrentFieldType] = React.useState('')
+  const currentFieldRef = React.useRef(null)
   const [panelVisibleMap, setPanelVisibleMap] = React.useState(
     INITIAL_PANEL_VISIBLE_MAP
   )
 
   const { children, actions, effects } = props
+
   const combineEffects = effects => {
     return createEffects($ => {
       if (!isEmpty(effects) && isFn(effects)) {
@@ -40,17 +42,18 @@ const App = props => {
           }
         })
       })
-      $('onDeleteField').subscribe(fieldType => {
+      $('onDeleteField').subscribe(() => {
         dispatchSchemaAction({
           type: SCHEMA_ACTIONS.DELETE,
-          payload: fieldType
+          payload: currentFieldName
         })
       })
-      $('onAlterField').subscribe((fieldType, data) => {
+      $('onAlterField').subscribe(data => {
+        const { fieldName } = currentFieldRef.current
         dispatchSchemaAction({
           type: SCHEMA_ACTIONS.ALTER,
           payload: {
-            fieldType,
+            fieldName,
             data
           }
         })
@@ -79,6 +82,7 @@ const App = props => {
       })
     })
   }
+
   // 将传入的effects与默认的effects合并
   const combinedEffects = combineEffects(effects)
   const { implementActions, dispatch } = useEva({
@@ -86,13 +90,18 @@ const App = props => {
     effects: combinedEffects
   })
 
+  React.useEffect(() => {
+    currentFieldRef.current = {
+      fieldName: currentFieldName,
+      fieldType: currentFieldType
+    }
+  }, [currentFieldName, currentFieldType])
+
   React.useLayoutEffect(() => {
     implementActions({
       addField: fieldType => dispatch('onAddField', fieldType),
-      deleteField: fieldType => dispatch('onDeleteField', fieldType),
-      alterField: (fieldType, data) => {
-        dispatch('onAlterField', fieldType, data)
-      },
+      deleteField: () => dispatch('onDeleteField'),
+      alterField: data => dispatch('onAlterField', data),
       clickField: ({ name, type }) => {
         setCurrentFieldName(name)
         setCurrentFieldType(type)

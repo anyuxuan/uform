@@ -8,7 +8,7 @@ const formActions = createFormActions()
 
 const ConfigPanel = props => {
   const { className, ...others } = props
-  const { global } = React.useContext(BuilderContext)
+  const { actions, global } = React.useContext(BuilderContext)
   const { currentFieldType } = global
   const wrapperCls = classNames('config-panel', className)
 
@@ -29,7 +29,17 @@ const ConfigPanel = props => {
     <Container className={wrapperCls} {...others}>
       <div className="header">配置区</div>
       <div className="container">
-        <SchemaForm actions={formActions}>{ConfigField}</SchemaForm>
+        <SchemaForm
+          actions={formActions}
+          effects={$ => {
+            // 监听配置面板中字段值的变化，触发修改预览区域字段schema的action
+            $('onAlterPreviewField').subscribe(({ payload }) => {
+              actions.alterField(payload)
+            })
+          }}
+        >
+          {ConfigField}
+        </SchemaForm>
       </div>
     </Container>
   )

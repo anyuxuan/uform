@@ -40,9 +40,9 @@ const reducer: React.Reducer<ISchema, IAction> = (state, action) => {
         properties
       }
     case SCHEMA_ACTIONS.ALTER:
-      const { fieldType, data } = action.payload
+      const { fieldName, data } = action.payload
       Object.entries(state.properties).forEach(([key, value]) => {
-        if (key === fieldType) {
+        if (key === fieldName) {
           properties[key] = {
             ...value,
             ...data
