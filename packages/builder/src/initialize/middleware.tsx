@@ -13,6 +13,7 @@ registerFieldMiddleware(Field => {
       if (schema['x-props'] && schema['x-props'].from === 'config') {
         return
       }
+      // 只有点击预览面板中字段，才会触发onClickField事件
       actions.dispatch('onClickField', {
         name,
         type: schema['x-component'] || schema.type

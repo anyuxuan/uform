@@ -18,6 +18,7 @@ const App = props => {
   const [schema, dispatchSchemaAction] = useSchema()
   const [currentFieldName, setCurrentFieldName] = React.useState('')
   const [currentFieldType, setCurrentFieldType] = React.useState('')
+  // 因为effects中无法拿到最新的useState快照数据，所以创建了一个ref来存储当前最新的fieldName和fieldType
   const currentFieldRef = React.useRef(null)
   const [panelVisibleMap, setPanelVisibleMap] = React.useState(
     INITIAL_PANEL_VISIBLE_MAP
@@ -30,8 +31,8 @@ const App = props => {
       if (!isEmpty(effects) && isFn(effects)) {
         effects($)
       }
-      $('onAddField').subscribe(fieldType => {
-        const name = `${fieldType}_${nameId++}`
+      $('onAddField').subscribe((fieldType, autoIncrease = true) => {
+        const name = autoIncrease ? `${fieldType}_${nameId++}` : fieldType
         dispatchSchemaAction({
           type: SCHEMA_ACTIONS.ADD,
           payload: {
@@ -43,9 +44,10 @@ const App = props => {
         })
       })
       $('onDeleteField').subscribe(() => {
+        const { fieldName } = currentFieldRef.current
         dispatchSchemaAction({
           type: SCHEMA_ACTIONS.DELETE,
-          payload: currentFieldName
+          payload: fieldName
         })
       })
       $('onAlterField').subscribe(data => {
@@ -69,11 +71,7 @@ const App = props => {
         setPanelVisibleMap(visibleMap =>
           Object.entries(visibleMap).reduce(
             (prev, [key, value]) => {
-              if (key === type) {
-                prev[key] = !value
-              } else {
-                prev[key] = false
-              }
+              prev[key] = key === type ? !value : false
               return prev
             },
             {} as any
@@ -99,7 +97,9 @@ const App = props => {
 
   React.useLayoutEffect(() => {
     implementActions({
-      addField: fieldType => dispatch('onAddField', fieldType),
+      addField: (fieldType, autoIncrease) => {
+        dispatch('onAddField', fieldType, autoIncrease)
+      },
       deleteField: () => dispatch('onDeleteField'),
       alterField: data => dispatch('onAlterField', data),
       clickField: ({ name, type }) => {

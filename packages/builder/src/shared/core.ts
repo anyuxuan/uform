@@ -53,6 +53,7 @@ export const getConfig = (name: string): any => {
   return CONFIG_MAP[name]
 }
 
+// 为react组件传递一些属性
 export const connectProps = (props?: IConnectedProps) => (
   element: React.ReactElement
 ) => {
