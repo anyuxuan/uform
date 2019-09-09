@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { Field } from '@uform/antd'
 import { registerConfig } from '@uform/builder'
 
