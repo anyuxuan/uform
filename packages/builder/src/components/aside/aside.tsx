@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useContext, useCallback } from 'react'
 import classNames from 'classnames'
 import { BuilderContext } from '../../shared'
 import { Container } from './style'
@@ -18,10 +18,10 @@ const ASIDE_CONFIG = [
 
 const Aside = props => {
   const { className, ...others } = props
-  const { actions } = React.useContext(BuilderContext)
+  const { actions } = useContext(BuilderContext)
   const wrapperCls = classNames('aside', className)
 
-  const setPanelVisible = React.useCallback(
+  const setPanelVisible = useCallback(
     type => {
       actions.dispatch('onSetPanelVisible', type)
     },

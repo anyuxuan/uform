@@ -1,15 +1,15 @@
-import * as React from 'react'
+import React, { useContext, useCallback } from 'react'
 import { registerFieldMiddleware } from '@uform/react'
 import { BuilderContext } from '../shared'
 
 registerFieldMiddleware(Field => {
   return props => {
-    const { actions } = React.useContext(BuilderContext)
+    const { actions } = useContext(BuilderContext)
     const { name, schema } = props
     if (!name) {
       return <Field {...props} />
     }
-    const onClick = React.useCallback(() => {
+    const onClick = useCallback(() => {
       if (schema['x-props'] && schema['x-props'].from === 'config') {
         return
       }

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useMemo, useContext } from 'react'
 import classNames from 'classnames'
 import { SchemaForm, createFormActions } from '@uform/react'
 import { Container } from './style'
@@ -9,20 +9,19 @@ import {
   getConfigData,
   setConfigData
 } from '../../shared'
-import { useEffect } from 'react'
+import { usePrevious } from '../../hooks'
 
 const formActions = createFormActions()
 
 const ConfigPanel = props => {
   const { className, ...others } = props
-  const { actions, global } = React.useContext(BuilderContext)
+  const { actions, global } = useContext(BuilderContext)
   const { currentFieldType, currentFieldName } = global
-  // 在预览区点击不同字段的时候，用来记录上一个点击的字段名
-  const prevFieldNameRef = React.useRef(currentFieldName)
+  const prevFieldName = usePrevious(currentFieldName)
 
   const wrapperCls = classNames('config-panel', className)
 
-  const ConfigField = React.useMemo(() => {
+  const ConfigField = useMemo(() => {
     const renderer = getConfig(currentFieldType)
     if (!renderer) {
       return null
@@ -36,20 +35,14 @@ const ConfigPanel = props => {
     })(element)
   }, [currentFieldType])
 
-  useEffect(() => {
-    if (
-      prevFieldNameRef.current &&
-      prevFieldNameRef.current !== currentFieldName
-    ) {
-      formActions.getFormState(currentFormState => {
-        setConfigData(prevFieldNameRef.current, currentFormState.values)
-        formActions.setFormState(formState => {
-          formState.values = getConfigData(currentFieldName) || {}
-        })
+  if (prevFieldName && prevFieldName !== currentFieldName) {
+    formActions.getFormState(currentFormState => {
+      setConfigData(prevFieldName, currentFormState.values)
+      formActions.setFormState(formState => {
+        formState.values = getConfigData(currentFieldName) || {}
       })
-    }
-    prevFieldNameRef.current = currentFieldName
-  }, [prevFieldNameRef, currentFieldName])
+    })
+  }
 
   return (
     <Container className={wrapperCls} {...others}>

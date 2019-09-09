@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useReducer } from 'react'
 import { ISchema } from '@uform/types'
 
 interface IAction {
@@ -63,7 +63,7 @@ const reducer: React.Reducer<ISchema, IAction> = (state, action) => {
 }
 
 const useSchema = (schema?: ISchema) => {
-  return React.useReducer(reducer, schema || DEFAULT_SCHEMA)
+  return useReducer(reducer, schema || DEFAULT_SCHEMA)
 }
 
 export default useSchema

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { isValidElement, cloneElement } from 'react'
 import { ISchema } from '@uform/types'
 import { recursiveReactElement } from '../utils'
 
@@ -57,11 +57,11 @@ export const getConfig = (name: string): any => {
 export const connectProps = (props?: IConnectedProps) => (
   element: React.ReactElement
 ) => {
-  if (!React.isValidElement(element)) {
+  if (!isValidElement(element)) {
     return null
   }
   return recursiveReactElement(element, child =>
-    React.cloneElement(child, {
+    cloneElement(child, {
       ...child.props,
       ...props
     })

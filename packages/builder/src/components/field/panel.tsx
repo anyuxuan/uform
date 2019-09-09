@@ -1,16 +1,16 @@
-import * as React from 'react'
+import React, { useCallback, useContext } from 'react'
 import classNames from 'classnames'
 import { getComponents, BuilderContext } from '../../shared'
 import { Container } from './style'
 
 const FieldPanel = props => {
-  const { actions, global } = React.useContext(BuilderContext)
+  const { actions, global } = useContext(BuilderContext)
   const { panelVisibleMap } = global
   const { className, ...others } = props
   const componentsMap = getComponents()
   const wrapperCls = classNames('field-panel', className)
 
-  const onClickItem = React.useCallback(
+  const onClickItem = useCallback(
     fieldType => () => {
       actions.addField(fieldType)
     },

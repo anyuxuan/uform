@@ -1,3 +1,3 @@
-import * as React from 'react'
+import { createContext } from 'react'
 
-export const BuilderContext = React.createContext(null)
+export const BuilderContext = createContext(null)

@@ -1,4 +1,10 @@
-import * as React from 'react'
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useState,
+  useRef
+} from 'react'
 import { createEffects, useEva } from 'react-eva'
 import { isEmpty, isFn } from '@uform/utils'
 import { BuilderContext, getDefaultSchema } from './shared'
@@ -16,11 +22,11 @@ const INITIAL_PANEL_VISIBLE_MAP = {
 
 const App = props => {
   const [schema, dispatchSchemaAction] = useSchema()
-  const [currentFieldName, setCurrentFieldName] = React.useState('')
-  const [currentFieldType, setCurrentFieldType] = React.useState('')
+  const [currentFieldName, setCurrentFieldName] = useState('')
+  const [currentFieldType, setCurrentFieldType] = useState('')
   // 因为effects中无法拿到最新的useState快照数据，所以创建了一个ref来存储当前最新的fieldName和fieldType
-  const currentFieldRef = React.useRef(null)
-  const [panelVisibleMap, setPanelVisibleMap] = React.useState(
+  const currentFieldRef = useRef(null)
+  const [panelVisibleMap, setPanelVisibleMap] = useState(
     INITIAL_PANEL_VISIBLE_MAP
   )
 
@@ -88,16 +94,16 @@ const App = props => {
     effects: combinedEffects
   })
 
-  React.useEffect(() => {
+  useEffect(() => {
     currentFieldRef.current = {
       fieldName: currentFieldName,
       fieldType: currentFieldType
     }
   }, [currentFieldName, currentFieldType])
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     implementActions({
-      addField: (fieldType, autoIncrease) => {
+      addField: (fieldType: string, autoIncrease?: boolean) => {
         dispatch('onAddField', fieldType, autoIncrease)
       },
       deleteField: () => dispatch('onDeleteField'),
@@ -111,7 +117,7 @@ const App = props => {
   }, [])
 
   // 一些全局状态
-  const global = React.useMemo(
+  const global = useMemo(
     () => ({
       currentFieldName,
       currentFieldType,
@@ -120,7 +126,7 @@ const App = props => {
     [currentFieldName, currentFieldType, panelVisibleMap]
   )
 
-  const context = React.useMemo(
+  const context = useMemo(
     () => ({
       actions,
       effects: combinedEffects,
