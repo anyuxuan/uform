@@ -3,7 +3,7 @@ import {
   Aside,
   FieldPanelRenderer,
   PreviewPanelRenderer,
-  ConfigPanel,
+  ConfigPanelRenderer,
   BasicLayout,
   BuilderContextProvider,
   createBuilderActions
@@ -30,7 +30,7 @@ class Demo extends React.Component {
             <Aside />
             <FieldPanelRenderer />
             <PreviewPanelRenderer />
-            <ConfigPanel />
+            <ConfigPanelRenderer />
           </BasicLayout>
         </BuilderContextProvider>
       </div>

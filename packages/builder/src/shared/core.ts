@@ -5,8 +5,6 @@ import { recursiveReactElement } from '../utils'
 import {
   IComponentMap,
   IComponentData,
-  IConfigMap,
-  IConfig,
   IDefaultSchema,
   IPlugin,
   IConnectedProps,
@@ -15,36 +13,9 @@ import {
 
 const COMPONENTS_MAP: IComponentMap = {}
 
-const CONFIG_MAP: IConfigMap = {}
-
 const DEFAULT_SCHEMA: IDefaultSchema = {}
 
 const PLUGINS: IPlugin[] = []
-
-// 注册组件的配置项
-export const registerConfig = (name: string, config: IConfig) => {
-  if (!name) {
-    return
-  }
-  CONFIG_MAP[name] = config
-}
-
-export const getConfig = (name: string) => CONFIG_MAP[name]
-
-// 为react组件传递一些属性
-export const connectProps = (props?: IConnectedProps) => (
-  element: React.ReactElement
-) => {
-  if (!isValidElement(element)) {
-    return null
-  }
-  return recursiveReactElement(element, child =>
-    cloneElement(child, {
-      ...child.props,
-      ...props
-    })
-  )
-}
 
 // 注册组件
 export const registerComponent = (name: string, data: IComponentData) => {
@@ -95,4 +66,19 @@ export const registerPlugins = (plugins: IPlugin[]) => {
 
 export const applyPlugins = (api: IBuilderApi) => {
   PLUGINS.forEach(plugin => plugin(api))
+}
+
+// 为react组件传递一些属性
+export const connectProps = (props?: IConnectedProps) => (
+  element: React.ReactElement
+) => {
+  if (!isValidElement(element)) {
+    return null
+  }
+  return recursiveReactElement(element, child =>
+    cloneElement(child, {
+      ...child.props,
+      ...props
+    })
+  )
 }

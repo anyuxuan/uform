@@ -1,9 +1,17 @@
 import { isEmpty, isFn } from '@uform/utils'
-import { IBuilderRenderers, IPanelRenderer, IPanelRendererMap } from '../types'
+import {
+  RENDERERS_NAMES,
+  IBuilderRenderers,
+  IPanelRenderer,
+  IPanelRendererMap
+} from '../types'
 
 const RENDERERS_MAP: IPanelRendererMap = {}
 
-export const registerRenderer = (name: string, renderer: IPanelRenderer) => {
+export const registerRenderer = (
+  name: RENDERERS_NAMES,
+  renderer: IPanelRenderer
+) => {
   if (isEmpty(name) || !isFn(renderer)) {
     return
   }
@@ -16,12 +24,12 @@ export const getRenderer = (name: keyof IPanelRendererMap) => {
 
 export const renderers: IBuilderRenderers = {
   sourcePanel(renderer: IPanelRenderer) {
-    registerRenderer('sourcePanel', renderer)
+    registerRenderer(RENDERERS_NAMES.SOURCE_PANEL, renderer)
   },
   configurePanel(renderer: IPanelRenderer) {
-    registerRenderer('configurePanel', renderer)
+    registerRenderer(RENDERERS_NAMES.CONFIGURE_PANEL, renderer)
   },
   previewerPanel(renderer: IPanelRenderer) {
-    registerRenderer('previewerPanel', renderer)
+    registerRenderer(RENDERERS_NAMES.PREVIEW_PANEL, renderer)
   }
 }

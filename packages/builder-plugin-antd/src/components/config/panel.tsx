@@ -5,37 +5,39 @@ import { Container } from './style'
 import {
   BuilderContext,
   connectProps,
-  getConfig,
+  getComponent,
   getConfigData,
-  setConfigData
-} from '../../shared'
-import { usePrevious } from '../../hooks'
+  setConfigData,
+  usePrevious
+} from '@uform/builder'
 
 const formActions = createFormActions()
 
-const ConfigPanel = props => {
+const ConfigPanel = ({ props }) => {
   const { className, ...others } = props
   const { api, global } = useContext(BuilderContext)
   const { actions } = api
   const { currentFieldType, currentFieldName } = global
   const prevFieldName = usePrevious(currentFieldName)
 
-  const wrapperCls = classNames('config-panel', className)
+  const wrapperCls = classNames(className, 'config-panel')
 
   const ConfigField = useMemo(() => {
-    const renderer = getConfig(currentFieldType)
-    if (!renderer) {
+    const component = getComponent(currentFieldType)
+    if (!component || !component.renderer) {
       return null
     }
-    const element = renderer({ actions: formActions })
+    const element = component.renderer({ actions: formActions })
     return connectProps({
       'x-props': {
         // 用来标识该Field是配置面板中的Field
+        // TODO: 换一个字段名
         from: 'config'
       }
     })(element)
-  }, [currentFieldType])
+  }, [currentFieldType, getComponent, connectProps])
 
+  // 在预览区域点击不同的字段时，配置区域显示对应的配置项及数据
   if (prevFieldName && prevFieldName !== currentFieldName) {
     formActions.getFormState(currentFormState => {
       setConfigData(prevFieldName, currentFormState.values)

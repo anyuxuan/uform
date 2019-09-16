@@ -1,1 +1,1 @@
-export { default as ConfigPanel } from './panel'
+export { default as ConfigPanelRenderer } from './renderer'

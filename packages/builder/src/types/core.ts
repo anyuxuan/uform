@@ -1,8 +1,6 @@
 import React from 'react'
 import { ISchema } from '@uform/types'
 
-export type IConfig<T = any> = (params: T) => React.ReactElement
-
 export type IPlugin = (api: any) => any
 
 export interface IComponentMeta {
@@ -13,7 +11,7 @@ export interface IComponentMeta {
 }
 
 // 组件面板中每个组件对应的配置区域渲染器
-export type IComponentRenderer = () => any
+export type IComponentRenderer = (...params: any[]) => any
 
 export interface IComponentData {
   meta: IComponentMeta
@@ -22,10 +20,6 @@ export interface IComponentData {
 
 export interface IComponentMap {
   [name: string]: IComponentData
-}
-
-export interface IConfigMap {
-  [k: string]: IConfig
 }
 
 export interface IDefaultSchema {
@@ -44,6 +38,12 @@ export interface IBuilderActions {
   dispatch: any
 }
 
+export const enum RENDERERS_NAMES {
+  SOURCE_PANEL = 'sourcePanel',
+  CONFIGURE_PANEL = 'configurePanel',
+  PREVIEW_PANEL = 'previewerPanel'
+}
+
 export type IPanelRenderer = (data: any) => React.ReactElement
 
 export type ISourcePanelRenderer = (renderer: IPanelRenderer) => void
@@ -52,8 +52,8 @@ export type IConfigurePanelRenderer = (renderer: IPanelRenderer) => void
 
 export type IPreviewerPanelRenderer = (renderer: IPanelRenderer) => void
 
-export interface IPanelRendererMap {
-  [name: string]: IPanelRenderer
+export type IPanelRendererMap = {
+  [name in RENDERERS_NAMES]?: IPanelRenderer
 }
 
 export interface IBuilderRenderers {

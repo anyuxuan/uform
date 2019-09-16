@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback, useContext } from 'react'
 import classNames from 'classnames'
-import { BuilderContext, getComponents } from '@uform/builder'
+import { BuilderContext, getComponents, IComponentData } from '@uform/builder'
 import { Container } from './style'
 
 const FieldPanel = ({ props, visible }) => {
@@ -23,7 +23,7 @@ const FieldPanel = ({ props, visible }) => {
       <div className="header">组件</div>
       <div className="field-area">
         {Object.entries(components).map(([name, data]) => {
-          const { meta } = data
+          const { meta } = data as IComponentData
           return (
             <div
               key={name}

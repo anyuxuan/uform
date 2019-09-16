@@ -6,7 +6,6 @@ export const Container = styled.div`
     min-height: 100%;
     max-height: 100%;
     overflow-y: scroll;
-    margin: 20px;
     padding: 16px;
 
     form > .rs-uform-content > div {
