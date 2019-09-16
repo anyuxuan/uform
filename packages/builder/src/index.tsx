@@ -9,6 +9,8 @@ export * from './components'
 export * from './layout'
 export * from './shared'
 
+export * from './types'
+
 export { default as BuilderContextProvider } from './app'
 
 // TODO: 使用mergeActions会出现actions未声明问题，不知道为什么

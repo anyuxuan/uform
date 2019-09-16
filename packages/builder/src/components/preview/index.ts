@@ -1,1 +1,1 @@
-export { default as PreviewPanel } from './panel'
+export { default as PreviewPanelRenderer } from './renderer'

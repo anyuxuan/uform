@@ -7,12 +7,16 @@ import React, {
 } from 'react'
 import { createEffects, useEva } from 'react-eva'
 import { isEmpty, isFn } from '@uform/utils'
-import { BuilderContext, getDefaultSchema } from './shared'
-import { SCHEMA_ACTIONS, useSchema } from './hooks'
+import { applyPlugins, BuilderContext, getDefaultSchema } from './shared'
+import { SCHEMA_ACTIONS, useSchema, useApi } from './hooks'
 
 let nameId = 0
+
 // 控制字段的显示顺序
 let index = 0
+
+// 注册的插件是否执行过
+let pluginFlushed = false
 
 // 所有面板的初始状态
 const INITIAL_PANEL_VISIBLE_MAP = {
@@ -94,12 +98,13 @@ const App = props => {
     effects: combinedEffects
   })
 
-  useEffect(() => {
-    currentFieldRef.current = {
-      fieldName: currentFieldName,
-      fieldType: currentFieldType
-    }
-  }, [currentFieldName, currentFieldType])
+  const api = useApi({ actions })
+
+  if (!pluginFlushed) {
+    // 执行所有注册的插件
+    applyPlugins(api)
+    pluginFlushed = true
+  }
 
   useLayoutEffect(() => {
     implementActions({
@@ -116,6 +121,13 @@ const App = props => {
     })
   }, [])
 
+  useEffect(() => {
+    currentFieldRef.current = {
+      fieldName: currentFieldName,
+      fieldType: currentFieldType
+    }
+  }, [currentFieldName, currentFieldType])
+
   // 一些全局状态
   const global = useMemo(
     () => ({
@@ -128,12 +140,12 @@ const App = props => {
 
   const context = useMemo(
     () => ({
-      actions,
       effects: combinedEffects,
       schema,
-      global
+      global,
+      api
     }),
-    [actions, combinedEffects, schema, global]
+    [combinedEffects, schema, global, api]
   )
 
   return (

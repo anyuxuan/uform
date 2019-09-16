@@ -18,7 +18,8 @@ const ASIDE_CONFIG = [
 
 const Aside = props => {
   const { className, ...others } = props
-  const { actions } = useContext(BuilderContext)
+  const { api } = useContext(BuilderContext)
+  const { actions } = api
   const wrapperCls = classNames('aside', className)
 
   const setPanelVisible = useCallback(

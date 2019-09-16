@@ -15,7 +15,8 @@ const formActions = createFormActions()
 
 const ConfigPanel = props => {
   const { className, ...others } = props
-  const { actions, global } = useContext(BuilderContext)
+  const { api, global } = useContext(BuilderContext)
+  const { actions } = api
   const { currentFieldType, currentFieldName } = global
   const prevFieldName = usePrevious(currentFieldName)
 

@@ -1,11 +1,7 @@
 import '@uform/antd'
 
-import './components/array'
-import './components/boolean'
-import './components/checkbox'
+import './components'
 
-import './config/array'
-import './config/boolean'
-import './config/checkbox'
+import './fields'
 
 export * from '@uform/builder'

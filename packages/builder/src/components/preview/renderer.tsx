@@ -4,8 +4,9 @@ import { SchemaForm } from '@uform/react'
 import { Container } from './style'
 import { BuilderContext } from '../../shared'
 
-const PreviewPanel = props => {
-  const { actions, effects, schema } = useContext(BuilderContext)
+const PreviewPanelRenderer = props => {
+  const { api, effects, schema } = useContext(BuilderContext)
+  const { actions } = api
   const { className, ...others } = props
   const wrapperCls = classNames('preview-panel', className)
 
@@ -25,4 +26,4 @@ const PreviewPanel = props => {
   )
 }
 
-export default PreviewPanel
+export default PreviewPanelRenderer

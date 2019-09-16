@@ -4,7 +4,8 @@ import { BuilderContext } from '../shared'
 
 registerFieldMiddleware(Field => {
   return props => {
-    const { actions } = useContext(BuilderContext)
+    const { api } = useContext(BuilderContext)
+    const { actions } = api
     const { name, schema } = props
     if (!name) {
       return <Field {...props} />

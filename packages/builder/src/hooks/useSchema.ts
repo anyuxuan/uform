@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react'
 import { ISchema } from '@uform/types'
 
-interface IAction {
+interface ISchemaAction {
   type: SCHEMA_ACTIONS
   payload: any
 }
@@ -18,7 +18,7 @@ const DEFAULT_SCHEMA: ISchema = {
   properties: {}
 }
 
-const reducer: React.Reducer<ISchema, IAction> = (state, action) => {
+const reducer: React.Reducer<ISchema, ISchemaAction> = (state, action) => {
   const properties = {}
   switch (action.type) {
     case SCHEMA_ACTIONS.ADD:

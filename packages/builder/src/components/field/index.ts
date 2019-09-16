@@ -1,1 +1,1 @@
-export { default as FieldPanel } from './panel'
+export { default as FieldPanelRenderer } from './renderer'
