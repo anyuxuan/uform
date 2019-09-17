@@ -1,6 +1,6 @@
 import React, { useContext, useCallback } from 'react'
 import classNames from 'classnames'
-import { BuilderContext } from '../../shared'
+import { BuilderContext } from '@uform/builder'
 import { Container } from './style'
 
 const ASIDE_CONFIG = [
@@ -16,14 +16,14 @@ const ASIDE_CONFIG = [
   }
 ]
 
-const Aside = props => {
+const AsidePanel = props => {
   const { className, ...others } = props
   const { api } = useContext(BuilderContext)
   const { actions } = api
-  const wrapperCls = classNames('aside', className)
+  const wrapperCls = classNames(className, 'aside')
 
   const setPanelVisible = useCallback(
-    type => {
+    type => () => {
       actions.dispatch('onSetPanelVisible', type)
     },
     [actions]
@@ -35,7 +35,7 @@ const Aside = props => {
         <div
           key={item.type}
           className="aside-item"
-          onClick={() => setPanelVisible(item.type)}
+          onClick={setPanelVisible(item.type)}
         >
           <img className="icon" src={item.icon} alt={item.desc} />
         </div>
@@ -44,4 +44,4 @@ const Aside = props => {
   )
 }
 
-export default Aside
+export default AsidePanel

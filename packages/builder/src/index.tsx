@@ -5,7 +5,7 @@ import './initialize'
 
 export * from '@uform/react'
 
-export * from './components'
+export * from './renderer'
 export * from './layout'
 export * from './shared'
 export * from './hooks'

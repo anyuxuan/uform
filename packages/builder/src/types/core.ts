@@ -39,6 +39,7 @@ export interface IBuilderActions {
 }
 
 export const enum RENDERERS_NAMES {
+  ASIDE_PANEL = 'asidePanel',
   SOURCE_PANEL = 'sourcePanel',
   CONFIGURE_PANEL = 'configurePanel',
   PREVIEW_PANEL = 'previewerPanel'
@@ -46,20 +47,17 @@ export const enum RENDERERS_NAMES {
 
 export type IPanelRenderer = (data: any) => React.ReactElement
 
-export type ISourcePanelRenderer = (renderer: IPanelRenderer) => void
-
-export type IConfigurePanelRenderer = (renderer: IPanelRenderer) => void
-
-export type IPreviewerPanelRenderer = (renderer: IPanelRenderer) => void
+export type IPanelCallback = (renderer: IPanelRenderer) => void
 
 export type IPanelRendererMap = {
   [name in RENDERERS_NAMES]?: IPanelRenderer
 }
 
 export interface IBuilderRenderers {
-  sourcePanel: ISourcePanelRenderer
-  configurePanel: IConfigurePanelRenderer
-  previewerPanel: IPreviewerPanelRenderer
+  asidePanel: IPanelCallback
+  sourcePanel: IPanelCallback
+  configurePanel: IPanelCallback
+  previewerPanel: IPanelCallback
 }
 
 export interface IBuilderHooks {

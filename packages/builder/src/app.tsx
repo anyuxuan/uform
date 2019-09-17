@@ -15,8 +15,7 @@ let nameId = 0
 // 控制字段的显示顺序
 let index = 0
 
-// 注册的插件是否执行过
-let pluginFlushed = false
+let initialized = false
 
 // 所有面板的初始状态
 const INITIAL_PANEL_VISIBLE_MAP = {
@@ -100,10 +99,10 @@ const App = props => {
 
   const api = useApi({ actions })
 
-  if (!pluginFlushed) {
+  if (!initialized) {
     // 执行所有注册的插件
     applyPlugins(api)
-    pluginFlushed = true
+    initialized = true
   }
 
   useLayoutEffect(() => {

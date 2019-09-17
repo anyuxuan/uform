@@ -1,9 +1,9 @@
 import { isEmpty, isFn } from '@uform/utils'
 import {
-  RENDERERS_NAMES,
   IBuilderRenderers,
   IPanelRenderer,
-  IPanelRendererMap
+  IPanelRendererMap,
+  RENDERERS_NAMES
 } from '../types'
 
 const RENDERERS_MAP: IPanelRendererMap = {}
@@ -23,6 +23,9 @@ export const getRenderer = (name: keyof IPanelRendererMap) => {
 }
 
 export const renderers: IBuilderRenderers = {
+  asidePanel(renderer: IPanelRenderer) {
+    registerRenderer(RENDERERS_NAMES.ASIDE_PANEL, renderer)
+  },
   sourcePanel(renderer: IPanelRenderer) {
     registerRenderer(RENDERERS_NAMES.SOURCE_PANEL, renderer)
   },
