@@ -2,8 +2,12 @@ import React from 'react'
 import { registerPlugin, CommonRenderer } from '@uform/builder'
 import Panel from './panel'
 
+const RENDERER_NAME = 'asidePanel'
+
 registerPlugin(api => {
-  api.renderers.asidePanel(Panel)
+  api.renderers.registerRenderer(RENDERER_NAME, Panel)
 })
 
-export default props => <CommonRenderer {...props} rendererName="asidePanel" />
+export default props => (
+  <CommonRenderer {...props} rendererName={RENDERER_NAME} />
+)

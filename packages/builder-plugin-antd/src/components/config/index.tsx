@@ -2,10 +2,12 @@ import React from 'react'
 import { registerPlugin, CommonRenderer } from '@uform/builder'
 import Panel from './panel'
 
+const RENDERER_NAME = 'configurePanel'
+
 registerPlugin(api => {
-  api.renderers.configurePanel(Panel)
+  api.renderers.registerRenderer(RENDERER_NAME, Panel)
 })
 
 export default props => (
-  <CommonRenderer {...props} rendererName="configurePanel" />
+  <CommonRenderer {...props} rendererName={RENDERER_NAME} />
 )
