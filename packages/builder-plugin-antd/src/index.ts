@@ -1,7 +1,7 @@
 import '@uform/antd'
 
-import './components'
-
 import './fields'
+
+export * from './components'
 
 export * from '@uform/builder'

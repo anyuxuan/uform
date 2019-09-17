@@ -1,6 +1,5 @@
-import React, { useContext, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import classNames from 'classnames'
-import { BuilderContext } from '@uform/builder'
 import { Container } from './style'
 
 const ASIDE_CONFIG = [
@@ -16,9 +15,9 @@ const ASIDE_CONFIG = [
   }
 ]
 
-const AsidePanel = props => {
+const AsidePanel = ({ props, ctx }) => {
   const { className, ...others } = props
-  const { api } = useContext(BuilderContext)
+  const { api } = ctx
   const { actions } = api
   const wrapperCls = classNames(className, 'aside')
 

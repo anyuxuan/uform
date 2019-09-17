@@ -1,21 +1,20 @@
-import React, { useMemo, useContext } from 'react'
+import React, { useMemo } from 'react'
 import classNames from 'classnames'
-import { SchemaForm, createFormActions } from '@uform/react'
-import { Container } from './style'
+import { SchemaForm, createFormActions } from '@uform/antd'
 import {
-  BuilderContext,
   connectProps,
   getComponent,
   getConfigData,
   setConfigData,
   usePrevious
 } from '@uform/builder'
+import { Container } from './style'
 
 const formActions = createFormActions()
 
-const ConfigPanel = ({ props }) => {
+const ConfigPanel = ({ props, ctx }) => {
   const { className, ...others } = props
-  const { api, global } = useContext(BuilderContext)
+  const { api, global } = ctx
   const { actions } = api
   const { currentFieldType, currentFieldName } = global
   const prevFieldName = usePrevious(currentFieldName)

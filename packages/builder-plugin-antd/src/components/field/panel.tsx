@@ -1,11 +1,12 @@
-import React, { useMemo, useCallback, useContext } from 'react'
+import React, { useMemo, useCallback } from 'react'
 import classNames from 'classnames'
-import { BuilderContext, getComponents, IComponentData } from '@uform/builder'
+import { getComponents, IComponentData } from '@uform/builder'
 import { Container } from './style'
 
-const FieldPanel = ({ props, visible }) => {
-  const { api } = useContext(BuilderContext)
+const FieldPanel = ({ props, ctx }) => {
+  const { api, global } = ctx
   const { actions } = api
+  const { panelVisibleMap } = global
   const { className, ...others } = props
   const wrapperCls = classNames(className, 'field-panel')
 
@@ -19,7 +20,11 @@ const FieldPanel = ({ props, visible }) => {
   )
 
   return (
-    <Container className={wrapperCls} {...others} visible={visible}>
+    <Container
+      className={wrapperCls}
+      {...others}
+      visible={panelVisibleMap.fieldPanel}
+    >
       <div className="header">组件</div>
       <div className="field-area">
         {Object.entries(components).map(([name, data]) => {

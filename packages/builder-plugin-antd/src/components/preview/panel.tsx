@@ -1,11 +1,10 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import classNames from 'classnames'
-import { SchemaForm } from '@uform/react'
-import { BuilderContext } from '@uform/builder'
+import { SchemaForm } from '@uform/antd'
 import { Container } from './style'
 
-const PreviewPanel = ({ props }) => {
-  const { api, effects, schema } = useContext(BuilderContext)
+const PreviewPanel = ({ props, ctx }) => {
+  const { api, effects, schema } = ctx
   const { actions } = api
   const { className, ...others } = props
   const wrapperCls = classNames(className, 'preview-panel')

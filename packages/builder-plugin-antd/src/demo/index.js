@@ -1,9 +1,9 @@
 import React from 'react'
 import {
-  AsidePanelRenderer,
-  FieldPanelRenderer,
-  PreviewPanelRenderer,
-  ConfigPanelRenderer,
+  AsidePanel,
+  FieldPanel,
+  PreviewPanel,
+  ConfigPanel,
   BasicLayout,
   BuilderContextProvider,
   createBuilderActions
@@ -27,10 +27,10 @@ class Demo extends React.Component {
       <div className="demo-container" style={containerStyle}>
         <BuilderContextProvider actions={actions}>
           <BasicLayout>
-            <AsidePanelRenderer />
-            <FieldPanelRenderer />
-            <PreviewPanelRenderer />
-            <ConfigPanelRenderer />
+            <AsidePanel />
+            <FieldPanel />
+            <PreviewPanel />
+            <ConfigPanel />
           </BasicLayout>
         </BuilderContextProvider>
       </div>

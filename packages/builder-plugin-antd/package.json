@@ -29,7 +29,6 @@
   "dependencies": {
     "@uform/antd": "^0.3.11",
     "@uform/builder": "^0.3.11",
-    "@uform/react": "^0.3.11",
     "classnames": "^2.2.6",
     "moment": "^2.24.0",
     "styled-components": "^4.3.2"

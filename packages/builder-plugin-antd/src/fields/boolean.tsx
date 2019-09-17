@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { registerComponent } from '@uform/builder'
-import { Field } from '@uform/react'
+import { Field } from '@uform/antd'
 
 registerComponent('boolean', {
   meta: {
