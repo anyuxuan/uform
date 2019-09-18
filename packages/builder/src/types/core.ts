@@ -10,12 +10,17 @@ export interface IComponentMeta {
   ['x-component']: string
 }
 
-// 组件面板中每个组件对应的配置区域渲染器
 export type IComponentRenderer = (...params: any[]) => any
 
+export type IComponentValueGetter = () => { [k: string]: any }
+
 export interface IComponentData {
+  // 组件面板的数据
   meta: IComponentMeta
+  //组件面板中每个组件对应的配置面板渲染器
   renderer: IComponentRenderer
+  // 返回值为配置面板表单的默认值
+  getDefaultValue: IComponentValueGetter
 }
 
 export interface IComponentMap {

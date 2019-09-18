@@ -1,5 +1,6 @@
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import classNames from 'classnames'
+import { isEmpty, isFn } from '@uform/utils'
 import { SchemaForm, createFormActions } from '@uform/antd'
 import {
   connectProps,
@@ -26,22 +27,43 @@ const ConfigPanel = ({ props, ctx }) => {
     if (!component || !component.renderer) {
       return null
     }
-    const element = component.renderer({ actions: formActions })
+    const element = component.renderer({
+      actions: formActions
+    })
     return connectProps({
       'x-props': {
         // 用来标识该Field是配置面板中的Field
-        // TODO: 换一个字段名
-        from: 'config'
+        target: 'configPanel'
       }
     })(element)
-  }, [currentFieldType, getComponent, connectProps])
+  }, [formActions, currentFieldType, getComponent, connectProps])
+
+  const getInitialValues = useCallback(() => {
+    const component = getComponent(currentFieldType)
+    if (component && isFn(component.getDefaultValue)) {
+      return component.getDefaultValue()
+    }
+    return {}
+  }, [getComponent, isFn, currentFieldType])
 
   // 在预览区域点击不同的字段时，配置区域显示对应的配置项及数据
-  if (prevFieldName && prevFieldName !== currentFieldName) {
-    formActions.getFormState(currentFormState => {
-      setConfigData(prevFieldName, currentFormState.values)
+  if (
+    (prevFieldName || currentFieldName) &&
+    prevFieldName !== currentFieldName
+  ) {
+    formActions.getFormState(prevFormState => {
+      if (!prevFieldName && currentFieldName) {
+        setConfigData(currentFieldName, getInitialValues())
+      } else {
+        // 存储上一个字段的配置项数据
+        setConfigData(prevFieldName, prevFormState.values)
+      }
+      // 设置当前选中字段的配置项数据
       formActions.setFormState(formState => {
-        formState.values = getConfigData(currentFieldName) || {}
+        const configData = getConfigData(currentFieldName)
+        formState.values = !isEmpty(configData)
+          ? configData
+          : getInitialValues()
       })
     })
   }

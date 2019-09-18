@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { registerComponent } from '@uform/builder'
+import { registerComponent, registerDefaultSchema } from '@uform/builder'
 import { Field } from '@uform/antd'
 
 registerComponent('checkbox', {
@@ -18,5 +18,25 @@ registerComponent('checkbox', {
         x-component="checkbox"
       />
     </Fragment>
-  )
+  ),
+  getDefaultValue: () => ({})
+})
+
+registerDefaultSchema('checkbox', {
+  type: 'checkbox',
+  title: '多选框',
+  enum: [
+    {
+      label: '选项一',
+      value: 1
+    },
+    {
+      label: '选项二',
+      value: 2
+    },
+    {
+      label: '选项三',
+      value: 3
+    }
+  ]
 })

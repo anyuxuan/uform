@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { registerComponent } from '@uform/builder'
+import { registerComponent, registerDefaultSchema } from '@uform/builder'
 import { Field } from '@uform/antd'
 
 registerComponent('array', {
@@ -9,27 +9,40 @@ registerComponent('array', {
     label: '数组',
     'x-component': 'array'
   },
-  renderer: () => (
-    <Fragment>
-      <Field
-        type="string"
-        title="标题"
-        name="title"
-        x-effect={dispatch => ({
-          onChange(e) {
-            const { value } = e.target
-            dispatch('onAlterPreviewField', {
-              title: value
-            })
-          }
-        })}
-      />
-      <Field
-        type="string"
-        title="显示标题"
-        name="showTitle"
-        x-component="boolean"
-      />
-    </Fragment>
-  )
+  renderer: () => {
+    return (
+      <Fragment>
+        <Field
+          type="string"
+          title="标题"
+          name="title"
+          x-effect={dispatch => ({
+            onChange(e) {
+              const { value } = e.target
+              dispatch('onAlterPreviewField', {
+                title: value
+              })
+            }
+          })}
+        />
+      </Fragment>
+    )
+  },
+  getDefaultValue: () => ({
+    title: '数组'
+  })
+})
+
+registerDefaultSchema('array', {
+  type: 'array',
+  title: '数组',
+  items: {
+    type: 'object',
+    properties: {
+      item1: {
+        type: 'string',
+        title: '字段1'
+      }
+    }
+  }
 })

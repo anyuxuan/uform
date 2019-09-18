@@ -1,7 +1,7 @@
-import { IFormState } from '@uform/types'
-
 interface IConfigData {
-  [key: string]: IFormState
+  [k: string]: {
+    [k: string]: any
+  }
 }
 
 // 存储配置面板中的表单数据
@@ -11,7 +11,7 @@ const CONFIG_DATA: IConfigData = {}
 export const getConfigData = (fieldName: string) => CONFIG_DATA[fieldName]
 
 // 设置配置面板内表单的值
-export const setConfigData = (fieldName: string, data: IFormState) => {
+export const setConfigData = (fieldName: string, data: any) => {
   if (!fieldName) {
     return
   }
