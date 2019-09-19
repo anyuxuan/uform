@@ -6,7 +6,7 @@ registerComponent('boolean', {
   meta: {
     type: 'string',
     icon: '//img.alicdn.com/tfs/TB1UZ_1dGL7gK0jSZFBXXXZZpXa-32-32.svg',
-    label: '单选框',
+    label: '开关',
     'x-component': 'boolean'
   },
   renderer: () => (
@@ -14,25 +14,21 @@ registerComponent('boolean', {
       <Field type="string" title="标题" name="title" />
       <Field
         type="string"
-        title="默认开关"
-        name="switch"
+        title="默认值"
+        name="defaultValue"
         x-component="boolean"
-        x-effect={dispatch => ({
-          onChange(checked) {
-            // console.log(checked, 'checked')
-          }
-        })}
       />
     </Fragment>
   ),
   getDefaultValue: () => ({
-    title: '单选框',
-    switch: true
+    title: '开关',
+    defaultValue: true
   })
 })
 
 registerDefaultSchema('boolean', {
   type: 'boolean',
   'x-component': 'boolean',
-  title: '单选框'
+  title: '开关',
+  default: true
 })

@@ -16,6 +16,7 @@ export const createBuilderActions = () => ({
     'addField',
     'deleteField',
     'alterField',
+    'addFieldProperty',
     'clickField',
     'dispatch'
   ),
@@ -27,6 +28,7 @@ export const createAsyncBuilderActions = () => ({
     'addField',
     'deleteField',
     'alterField',
+    'addFieldProperty',
     'clickField',
     'dispatch'
   ),

@@ -1,14 +1,9 @@
-import React, {
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useState,
-  useRef
-} from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { createEffects, useEva } from 'react-eva'
 import { isEmpty, isFn } from '@uform/utils'
+import { ISchema } from '@uform/types'
 import { applyPlugins, BuilderContext, getDefaultSchema } from './shared'
-import { SCHEMA_ACTIONS, useSchema, useApi } from './hooks'
+import { SCHEMA_ACTIONS, useApi, useSchema } from './hooks'
 
 let nameId = 0
 
@@ -59,13 +54,13 @@ const App = props => {
           payload: fieldName
         })
       })
-      $('onAlterField').subscribe(data => {
+      $('onAlterField').subscribe(property => {
         const { fieldName } = currentFieldRef.current
         dispatchSchemaAction({
           type: SCHEMA_ACTIONS.ALTER,
           payload: {
             fieldName,
-            data
+            property
           }
         })
       })
@@ -100,25 +95,31 @@ const App = props => {
   const api = useApi({ actions })
 
   if (!initialized) {
-    // 执行所有注册的插件
-    applyPlugins(api)
-    initialized = true
-  }
-
-  useLayoutEffect(() => {
     implementActions({
       addField: (fieldType: string, autoIncrease?: boolean) => {
         dispatch('onAddField', fieldType, autoIncrease)
       },
       deleteField: () => dispatch('onDeleteField'),
-      alterField: data => dispatch('onAlterField', data),
+      alterField: property => dispatch('onAlterField', property),
+      addFieldProperty: (fieldName: string, property: ISchema) => {
+        dispatchSchemaAction({
+          type: SCHEMA_ACTIONS.ADD_PROPERTY,
+          payload: {
+            fieldName,
+            property
+          }
+        })
+      },
       clickField: ({ name, type }) => {
         setCurrentFieldName(name)
         setCurrentFieldType(type)
       },
       dispatch
     })
-  }, [])
+    // 执行所有注册的插件
+    applyPlugins(api)
+    initialized = true
+  }
 
   useEffect(() => {
     currentFieldRef.current = {

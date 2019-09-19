@@ -10,7 +10,8 @@ export const enum SCHEMA_ACTIONS {
   ADD = 'ADD',
   DELETE = 'DELETE',
   ALTER = 'ALTER',
-  GET = 'GET'
+  GET = 'GET',
+  ADD_PROPERTY = 'ADD_PROPERTY'
 }
 
 const DEFAULT_SCHEMA: ISchema = {
@@ -21,7 +22,7 @@ const DEFAULT_SCHEMA: ISchema = {
 const reducer: React.Reducer<ISchema, ISchemaAction> = (state, action) => {
   const properties = {}
   switch (action.type) {
-    case SCHEMA_ACTIONS.ADD:
+    case SCHEMA_ACTIONS.ADD: {
       return {
         ...state,
         properties: {
@@ -29,7 +30,8 @@ const reducer: React.Reducer<ISchema, ISchemaAction> = (state, action) => {
           ...action.payload
         }
       }
-    case SCHEMA_ACTIONS.DELETE:
+    }
+    case SCHEMA_ACTIONS.DELETE: {
       Object.entries(state.properties).forEach(([key, value]) => {
         if (key !== action.payload) {
           properties[key] = value
@@ -39,13 +41,14 @@ const reducer: React.Reducer<ISchema, ISchemaAction> = (state, action) => {
         ...state,
         properties
       }
-    case SCHEMA_ACTIONS.ALTER:
-      const { fieldName, data } = action.payload
+    }
+    case SCHEMA_ACTIONS.ALTER: {
+      const { fieldName, property } = action.payload
       Object.entries(state.properties).forEach(([key, value]) => {
         if (key === fieldName) {
           properties[key] = {
             ...value,
-            ...data
+            ...property
           }
         } else {
           properties[key] = value
@@ -55,6 +58,27 @@ const reducer: React.Reducer<ISchema, ISchemaAction> = (state, action) => {
         ...state,
         properties
       }
+    }
+    case SCHEMA_ACTIONS.ADD_PROPERTY: {
+      const { fieldName, property } = action.payload
+      Object.entries(state.properties).forEach(([key, value]) => {
+        if (key === fieldName) {
+          properties[key] = {
+            ...value,
+            properties: {
+              ...value.properties,
+              ...property
+            }
+          }
+        } else {
+          properties[key] = value
+        }
+      })
+      return {
+        ...state,
+        properties
+      }
+    }
     case SCHEMA_ACTIONS.GET:
       return state
     default:

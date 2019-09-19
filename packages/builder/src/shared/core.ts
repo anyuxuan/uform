@@ -70,12 +70,12 @@ export const applyPlugins = (api: IBuilderApi) => {
 
 // 为react组件传递一些属性
 export const connectProps = (props?: IConnectedProps) => (
-  element: React.ReactElement
+  element: React.ReactNode
 ) => {
   if (!isValidElement(element)) {
     return null
   }
-  return recursiveReactElement(element, child =>
+  return recursiveReactElement(element, (child: React.ReactElement) =>
     cloneElement(child, {
       ...child.props,
       ...props

@@ -28,7 +28,8 @@ const ConfigPanel = ({ props, ctx }) => {
       return null
     }
     const element = component.renderer({
-      actions: formActions
+      actions: formActions,
+      ctx
     })
     return connectProps({
       'x-props': {
@@ -36,7 +37,7 @@ const ConfigPanel = ({ props, ctx }) => {
         target: 'configPanel'
       }
     })(element)
-  }, [formActions, currentFieldType, getComponent, connectProps])
+  }, [ctx, formActions, currentFieldType, getComponent, connectProps])
 
   const getInitialValues = useCallback(() => {
     const component = getComponent(currentFieldType)

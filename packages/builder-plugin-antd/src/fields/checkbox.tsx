@@ -15,7 +15,7 @@ registerComponent('checkbox', {
       <Field
         type="string"
         title="默认选中项"
-        name="switch"
+        name="defaultValue"
         x-component="checkbox"
       />
     </Fragment>
