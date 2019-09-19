@@ -11,6 +11,7 @@ registerComponent('boolean', {
   },
   renderer: () => (
     <Fragment>
+      <Field type="string" title="标题" name="title" />
       <Field
         type="string"
         title="默认开关"
@@ -25,11 +26,13 @@ registerComponent('boolean', {
     </Fragment>
   ),
   getDefaultValue: () => ({
+    title: '单选框',
     switch: true
   })
 })
 
 registerDefaultSchema('boolean', {
   type: 'boolean',
+  'x-component': 'boolean',
   title: '单选框'
 })

@@ -22,6 +22,7 @@ export const Container = styled.div`
     .field-area {
       display: flex;
       justify-content: space-between;
+      flex-wrap: wrap;
       padding: 10px;
 
       .field-item {

@@ -1,8 +1,11 @@
 import React, { useContext, useCallback } from 'react'
-import { registerFieldMiddleware } from '@uform/react'
-import { BuilderContext } from '../shared'
+import classNames from 'classnames'
+import { registerFieldMiddleware } from '@uform/antd'
+import { BuilderContext } from '@uform/builder'
 
-// TODO: 最好不要在builder中注册该中间件，需要更好的方式来实现
+// 布局类的字段类型
+const LAYOUT_FIELDS = ['layout']
+
 registerFieldMiddleware(Field => {
   return props => {
     const { api } = useContext(BuilderContext)
@@ -21,8 +24,13 @@ registerFieldMiddleware(Field => {
         type: schema['x-component'] || schema.type
       })
     }, [actions])
+    const cls = classNames({
+      layout: LAYOUT_FIELDS.some(
+        type => type === schema['x-component'] || type === schema.type
+      )
+    })
     return (
-      <div onClick={onClick}>
+      <div className={cls} onClick={onClick}>
         <Field {...props} />
       </div>
     )

@@ -33,7 +33,7 @@ const FieldPanel = ({ props, ctx }) => {
             <div
               key={name}
               className="field-item"
-              onClick={onClickItem(meta['x-component'])}
+              onClick={onClickItem(meta['x-component'] || meta.type)}
             >
               <img className="icon" src={meta.icon} alt={name} />
               <div className="label">{meta.label}</div>

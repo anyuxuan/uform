@@ -35,6 +35,7 @@ registerComponent('array', {
 
 registerDefaultSchema('array', {
   type: 'array',
+  'x-component': 'array',
   title: '数组',
   items: {
     type: 'object',

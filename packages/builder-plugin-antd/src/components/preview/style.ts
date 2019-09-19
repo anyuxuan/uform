@@ -12,9 +12,16 @@ export const Container = styled.div`
       border: 1px solid transparent;
       position: relative;
 
-      &:hover {
+      &.layout {
+        padding: 20px 0;
+        border: 1px dashed #ddd;
+      }
+
+      &:hover,
+      &:focus {
         cursor: pointer;
         border: 1px dotted blue;
+        outline: none;
       }
     }
   }

@@ -11,6 +11,7 @@ registerComponent('checkbox', {
   },
   renderer: () => (
     <Fragment>
+      <Field type="string" title="标题" name="title" />
       <Field
         type="string"
         title="默认选中项"
@@ -19,11 +20,14 @@ registerComponent('checkbox', {
       />
     </Fragment>
   ),
-  getDefaultValue: () => ({})
+  getDefaultValue: () => ({
+    title: '多选框'
+  })
 })
 
 registerDefaultSchema('checkbox', {
   type: 'checkbox',
+  'x-component': 'checkbox',
   title: '多选框',
   enum: [
     {

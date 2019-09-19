@@ -125,7 +125,7 @@ const App = props => {
       fieldName: currentFieldName,
       fieldType: currentFieldType
     }
-  }, [currentFieldName, currentFieldType])
+  }, [currentFieldRef, currentFieldName, currentFieldType])
 
   // 一些全局状态
   const global = useMemo(

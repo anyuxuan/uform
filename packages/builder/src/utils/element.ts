@@ -1,22 +1,20 @@
-import React, { isValidElement } from 'react'
+import React, { cloneElement, isValidElement } from 'react'
 
-type RecursiveCallback = (child: React.ReactElement) => any
+type RecursiveCallback = (child: React.ReactNode) => any
 
 export const recursiveReactElement = (
-  element: React.ReactElement | React.ReactElement[],
+  element: React.ReactNode | React.ReactNode[],
   callback: RecursiveCallback
 ) => {
-  return React.Children.map<any, React.ReactElement>(element, child => {
-    if (child.props.children) {
-      const { children } = child.props
-      if (!isValidElement(children)) {
-        return null
-      }
-      if (Array.isArray(children)) {
-        return recursiveReactElement(children, callback)
-      } else {
-        return callback(children)
-      }
+  return React.Children.map<any, React.ReactNode>(element, child => {
+    if (!isValidElement(child)) {
+      return child
+    }
+    if (child.props && child.props.children) {
+      child = cloneElement(child, {
+        ...child.props,
+        children: recursiveReactElement(child.props.children, callback)
+      })
     }
     return callback(child)
   })
