@@ -66,7 +66,7 @@ const reducer: React.Reducer<ISchema, ISchemaAction> = (state, action) => {
           properties[key] = {
             ...value,
             properties: {
-              ...value.properties,
+              ...(value.properties ? value.properties : {}),
               ...property
             }
           }

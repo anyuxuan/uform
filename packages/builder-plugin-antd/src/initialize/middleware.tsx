@@ -24,7 +24,7 @@ registerFieldMiddleware(Field => {
         type: schema['x-component'] || schema.type
       })
     }, [actions])
-    const cls = classNames({
+    const cls = classNames(schema.className, 'field-wrapper', {
       layout: LAYOUT_FIELDS.some(
         type => type === schema['x-component'] || type === schema.type
       )

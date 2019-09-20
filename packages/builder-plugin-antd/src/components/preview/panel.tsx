@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
+import { clone } from '@uform/utils'
 import { SchemaForm } from '@uform/antd'
 import { Container } from './style'
 
@@ -12,7 +13,7 @@ const PreviewPanel = ({ props, ctx }) => {
   return (
     <Container className={wrapperCls} {...others}>
       <SchemaForm
-        schema={schema}
+        schema={clone(schema)}
         actions={actions}
         effects={$ => {
           effects($)
