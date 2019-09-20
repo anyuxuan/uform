@@ -23,10 +23,11 @@ registerFieldMiddleware(Field => {
         // 只有点击预览面板中字段，才会触发onClickField事件
         actions.clickField({
           name,
-          type: schema['x-component'] || schema.type
+          type: schema['x-component'] || schema.type,
+          uniqueId: schema.uniqueId
         })
       },
-      [actions]
+      [actions, schema]
     )
     const cls = classNames(schema.className, 'field-wrapper', {
       layout: LAYOUT_FIELDS.some(

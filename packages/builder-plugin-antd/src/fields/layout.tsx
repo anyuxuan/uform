@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import uuid from 'uuid'
 import {
   registerComponent,
   registerDefaultSchema,
@@ -37,9 +38,11 @@ registerComponent('layout', {
                     fields.forEach((fieldType, index) => {
                       if (fieldType) {
                         const property = {
-                          [`field_${index}`]: {
+                          // TODO: key需要全局唯一
+                          [`field-${index}`]: {
                             ...getDefaultSchema(fieldType),
-                            'x-index': index
+                            'x-index': index,
+                            uniqueId: uuid()
                           }
                         }
                         actions.addFieldProperty(property)

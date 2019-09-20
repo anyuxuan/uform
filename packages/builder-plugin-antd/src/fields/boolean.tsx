@@ -30,5 +30,6 @@ registerDefaultSchema('boolean', {
   type: 'boolean',
   'x-component': 'boolean',
   title: '开关',
-  default: true
+  default: true,
+  properties: {}
 })

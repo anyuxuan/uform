@@ -12,16 +12,17 @@ registerComponent('checkbox', {
   renderer: () => (
     <Fragment>
       <Field type="string" title="标题" name="title" />
-      <Field
-        type="string"
-        title="默认选中项"
-        name="defaultValue"
-        x-component="checkbox"
-      />
+      {/*<Field*/}
+      {/*  type="string"*/}
+      {/*  title="默认选中项"*/}
+      {/*  name="defaultValue"*/}
+      {/*  x-component="checkbox"*/}
+      {/*/>*/}
     </Fragment>
   ),
   getDefaultValue: () => ({
-    title: '多选框'
+    title: '多选框',
+    defaultValue: 1
   })
 })
 
@@ -42,5 +43,6 @@ registerDefaultSchema('checkbox', {
       label: '选项三',
       value: 3
     }
-  ]
+  ],
+  properties: {}
 })

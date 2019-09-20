@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { createEffects, useEva } from 'react-eva'
+import uuid from 'uuid'
 import { isEmpty, isFn } from '@uform/utils'
 import { ISchema } from '@uform/types'
-import { applyPlugins, BuilderContext, getDefaultSchema } from './shared'
+import { applyPlugins, getDefaultSchema, BuilderContext } from './shared'
 import { SCHEMA_ACTIONS, useApi, useSchema } from './hooks'
 
 let nameId = 0
@@ -22,6 +23,7 @@ const App = props => {
   const [schema, dispatchSchemaAction] = useSchema()
   const [currentFieldName, setCurrentFieldName] = useState('')
   const [currentFieldType, setCurrentFieldType] = useState('')
+  const [currentUniqueId, setCurrentUniqueId] = useState('')
   // 因为effects中无法拿到最新的useState快照数据，所以创建了一个ref来存储当前最新的fieldName和fieldType
   const currentFieldRef = useRef(null)
   const [panelVisibleMap, setPanelVisibleMap] = useState(
@@ -35,35 +37,6 @@ const App = props => {
       if (!isEmpty(effects) && isFn(effects)) {
         effects($)
       }
-      $('onAddField').subscribe((fieldType, autoIncrease = true) => {
-        const name = autoIncrease ? `${fieldType}_${nameId++}` : fieldType
-        dispatchSchemaAction({
-          type: SCHEMA_ACTIONS.ADD,
-          payload: {
-            [name]: {
-              ...getDefaultSchema(fieldType),
-              'x-index': index++
-            }
-          }
-        })
-      })
-      $('onDeleteField').subscribe(() => {
-        const { fieldName } = currentFieldRef.current
-        dispatchSchemaAction({
-          type: SCHEMA_ACTIONS.DELETE,
-          payload: fieldName
-        })
-      })
-      $('onAlterField').subscribe(property => {
-        const { fieldName } = currentFieldRef.current
-        dispatchSchemaAction({
-          type: SCHEMA_ACTIONS.ALTER,
-          payload: {
-            fieldName,
-            property
-          }
-        })
-      })
       $('onFormInit').subscribe(() => {
         // console.log('onFormInit')
       })
@@ -96,24 +69,50 @@ const App = props => {
 
   if (!initialized) {
     implementActions({
-      addField: (fieldType: string, autoIncrease?: boolean) => {
-        dispatch('onAddField', fieldType, autoIncrease)
-      },
-      deleteField: () => dispatch('onDeleteField'),
-      alterField: property => dispatch('onAlterField', property),
-      addFieldProperty: (property: ISchema) => {
-        const { fieldName } = currentFieldRef.current
+      addField: (fieldType: string) => {
+        const name = `${fieldType}_${nameId++}`
         dispatchSchemaAction({
-          type: SCHEMA_ACTIONS.ADD_PROPERTY,
+          type: SCHEMA_ACTIONS.ADD,
           payload: {
-            fieldName,
+            property: {
+              [name]: {
+                ...getDefaultSchema(fieldType),
+                'x-index': index++,
+                uniqueId: uuid()
+              }
+            }
+          }
+        })
+      },
+      deleteField: () => {
+        dispatchSchemaAction({
+          type: SCHEMA_ACTIONS.DELETE,
+          payload: currentFieldName
+        })
+      },
+      alterField: (property: ISchema) => {
+        dispatchSchemaAction({
+          type: SCHEMA_ACTIONS.ALTER,
+          payload: {
+            fieldName: currentFieldName,
             property
           }
         })
       },
-      clickField: ({ name, type }) => {
+      addFieldProperty: (property: ISchema, id?: string) => {
+        const { uniqueId } = currentFieldRef.current
+        dispatchSchemaAction({
+          type: SCHEMA_ACTIONS.ADD_PROPERTY,
+          payload: {
+            uniqueId: id || uniqueId,
+            property
+          }
+        })
+      },
+      clickField: ({ name, type, uniqueId }) => {
         setCurrentFieldName(name)
         setCurrentFieldType(type)
+        setCurrentUniqueId(uniqueId)
       },
       dispatch
     })
@@ -125,9 +124,12 @@ const App = props => {
   useEffect(() => {
     currentFieldRef.current = {
       fieldName: currentFieldName,
-      fieldType: currentFieldType
+      fieldType: currentFieldType,
+      uniqueId: currentUniqueId
     }
-  }, [currentFieldName, currentFieldType])
+  }, [currentFieldName, currentFieldType, currentUniqueId])
+
+  // console.log(schema, 'schema')
 
   // 一些全局状态
   const global = useMemo(

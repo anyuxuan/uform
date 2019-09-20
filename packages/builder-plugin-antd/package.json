@@ -32,7 +32,8 @@
     "@uform/utils": "^0.3.11",
     "classnames": "^2.2.6",
     "moment": "^2.24.0",
-    "styled-components": "^4.3.2"
+    "styled-components": "^4.3.2",
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "typescript": "^3.5.3",
