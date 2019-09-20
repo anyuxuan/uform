@@ -101,7 +101,8 @@ const App = props => {
       },
       deleteField: () => dispatch('onDeleteField'),
       alterField: property => dispatch('onAlterField', property),
-      addFieldProperty: (fieldName: string, property: ISchema) => {
+      addFieldProperty: (property: ISchema) => {
+        const { fieldName } = currentFieldRef.current
         dispatchSchemaAction({
           type: SCHEMA_ACTIONS.ADD_PROPERTY,
           payload: {
@@ -126,7 +127,7 @@ const App = props => {
       fieldName: currentFieldName,
       fieldType: currentFieldType
     }
-  }, [currentFieldRef, currentFieldName, currentFieldType])
+  }, [currentFieldName, currentFieldType])
 
   // 一些全局状态
   const global = useMemo(

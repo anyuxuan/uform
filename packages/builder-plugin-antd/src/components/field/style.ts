@@ -4,7 +4,7 @@ export const Container = styled.div`
   &.field-panel {
     display: ${props => (props.visible ? 'block' : 'none')};
     width: 300px;
-    z-index: 3;
+    z-index: 10;
     border-right: 1px solid rgba(31, 56, 88, 0.1);
     background: #ffffff;
     max-height: 100%;

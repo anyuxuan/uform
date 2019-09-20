@@ -14,16 +14,20 @@ registerFieldMiddleware(Field => {
     if (!name) {
       return <Field {...props} />
     }
-    const onClick = useCallback(() => {
-      if (schema['x-props'] && schema['x-props'].target === 'configPanel') {
-        return
-      }
-      // 只有点击预览面板中字段，才会触发onClickField事件
-      actions.dispatch('onClickField', {
-        name,
-        type: schema['x-component'] || schema.type
-      })
-    }, [actions])
+    const onClick = useCallback(
+      e => {
+        e.stopPropagation()
+        if (schema['x-props'] && schema['x-props'].target === 'configPanel') {
+          return
+        }
+        // 只有点击预览面板中字段，才会触发onClickField事件
+        actions.clickField({
+          name,
+          type: schema['x-component'] || schema.type
+        })
+      },
+      [actions]
+    )
     const cls = classNames(schema.className, 'field-wrapper', {
       layout: LAYOUT_FIELDS.some(
         type => type === schema['x-component'] || type === schema.type

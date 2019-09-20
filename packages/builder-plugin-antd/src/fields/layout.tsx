@@ -15,9 +15,8 @@ registerComponent('layout', {
     'x-component': 'layout'
   },
   renderer: ({ actions: formActions, ctx }) => {
-    const { api, global } = ctx
+    const { api } = ctx
     const { actions } = api
-    const { currentFieldName } = global
     const components = getComponents()
     const fieldsEnum = Object.entries(components).map(([name, data]) => ({
       label: data.meta.label,
@@ -31,7 +30,6 @@ registerComponent('layout', {
             enum={fieldsEnum}
             x-effect={() => ({
               onChange() {
-                // TODO: 先选择checkbox并且勾选几项后，再选择array会有问题
                 // TODO: 上移/下移，删除字段，无法实时在预览区域展现
                 formActions.getFormState(formState => {
                   const { fields } = formState.values || {}
@@ -44,8 +42,7 @@ registerComponent('layout', {
                             'x-index': index
                           }
                         }
-                        actions.reset()
-                        actions.addFieldProperty(currentFieldName, property)
+                        actions.addFieldProperty(property)
                       }
                     })
                   }

@@ -12,6 +12,16 @@ export const Container = styled.div`
       border: 1px solid transparent;
       position: relative;
 
+      &:before {
+        content: ' ';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        z-index: 1;
+      }
+
       &:hover,
       &:focus {
         cursor: pointer;
@@ -27,6 +37,16 @@ export const Container = styled.div`
       & > .field-wrapper {
         border: 1px solid transparent;
         position: relative;
+
+        &:before {
+          content: ' ';
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          z-index: 1;
+        }
 
         &:hover,
         &:focus {
