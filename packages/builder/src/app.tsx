@@ -6,8 +6,6 @@ import { ISchema } from '@uform/types'
 import { applyPlugins, getDefaultSchema, BuilderContext } from './shared'
 import { SCHEMA_ACTIONS, useApi, useSchema } from './hooks'
 
-let nameId = 0
-
 // 控制字段的显示顺序
 let index = 0
 
@@ -70,15 +68,15 @@ const App = props => {
   if (!initialized) {
     implementActions({
       addField: (fieldType: string) => {
-        const name = `${fieldType}_${nameId++}`
+        const uniqueId = uuid()
         dispatchSchemaAction({
           type: SCHEMA_ACTIONS.ADD,
           payload: {
             property: {
-              [name]: {
+              [uniqueId]: {
                 ...getDefaultSchema(fieldType),
                 'x-index': index++,
-                uniqueId: uuid()
+                uniqueId
               }
             }
           }
@@ -90,11 +88,12 @@ const App = props => {
           payload: currentFieldName
         })
       },
-      alterField: (property: ISchema) => {
+      alterField: (property: ISchema, id?: string) => {
+        const { uniqueId } = currentFieldRef.current
         dispatchSchemaAction({
           type: SCHEMA_ACTIONS.ALTER,
           payload: {
-            fieldName: currentFieldName,
+            uniqueId: id || uniqueId,
             property
           }
         })
@@ -129,7 +128,9 @@ const App = props => {
     }
   }, [currentFieldName, currentFieldType, currentUniqueId])
 
-  // console.log(schema, 'schema')
+  // useEffect(() => {
+  //   console.log(schema, 'schema')
+  // }, [schema])
 
   // 一些全局状态
   const global = useMemo(

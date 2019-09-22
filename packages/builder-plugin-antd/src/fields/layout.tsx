@@ -38,7 +38,6 @@ registerComponent('layout', {
                     fields.forEach((fieldType, index) => {
                       if (fieldType) {
                         const property = {
-                          // TODO: key需要全局唯一
                           [`field-${index}`]: {
                             ...getDefaultSchema(fieldType),
                             'x-index': index,

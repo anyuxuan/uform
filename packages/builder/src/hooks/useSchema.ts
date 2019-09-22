@@ -13,7 +13,8 @@ export const enum SCHEMA_ACTIONS {
   DELETE = 'DELETE',
   ALTER = 'ALTER',
   GET = 'GET',
-  ADD_PROPERTY = 'ADD_PROPERTY'
+  ADD_PROPERTY = 'ADD_PROPERTY',
+  ADD_ITEMS = 'ADD_ITEMS'
 }
 
 const DEFAULT_SCHEMA: ISchema = {
@@ -46,21 +47,16 @@ const reducer: React.Reducer<ISchema, ISchemaAction> = (state, action) => {
       }
     }
     case SCHEMA_ACTIONS.ALTER: {
-      const { fieldName, property } = action.payload
-      Object.entries(state.properties).forEach(([key, value]) => {
-        if (key === fieldName) {
-          properties[key] = {
+      const { property, uniqueId } = action.payload
+      const clonedState = clone(state)
+      return deepMapObj(clonedState, value => {
+        if (value && value.uniqueId === uniqueId) {
+          return {
             ...value,
             ...property
           }
-        } else {
-          properties[key] = value
         }
       })
-      return {
-        ...state,
-        properties
-      }
     }
     case SCHEMA_ACTIONS.ADD_PROPERTY: {
       const { property, uniqueId } = action.payload
@@ -68,19 +64,22 @@ const reducer: React.Reducer<ISchema, ISchemaAction> = (state, action) => {
       return deepMapObj(clonedState, value => {
         if (value && value.uniqueId === uniqueId) {
           const newProperty = Object.entries(property).reduce(
-            (acc, [key, value]) => {
-              acc[`${uniqueId}_${key}`] = value
+            (acc, [fieldKey, fieldProperty]) => {
+              const newKey = `${uniqueId}_${fieldKey}`
+              acc[newKey] = fieldProperty
               return acc
             },
             {}
           )
           value.properties = {
-            ...(value.properties ? value.properties : {}),
+            ...value.properties,
             ...newProperty
           }
         }
       })
     }
+    case SCHEMA_ACTIONS.ADD_ITEMS:
+      return state
     case SCHEMA_ACTIONS.GET:
       return state
     default:

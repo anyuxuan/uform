@@ -15,8 +15,7 @@ const formActions = createFormActions()
 
 const ConfigPanel = ({ props, ctx }) => {
   const { className, ...others } = props
-  const { api, global } = ctx
-  const { actions } = api
+  const { global } = ctx
   const { currentFieldType, currentFieldName } = global
   const prevFieldName = usePrevious(currentFieldName)
 
@@ -73,17 +72,7 @@ const ConfigPanel = ({ props, ctx }) => {
     <Container className={wrapperCls} {...others}>
       <div className="header">配置区</div>
       <div className="container">
-        <SchemaForm
-          actions={formActions}
-          effects={$ => {
-            // 监听配置面板中字段值的变化，触发修改预览区域字段schema的action
-            $('onAlterPreviewField').subscribe(({ payload }) => {
-              actions.alterField(payload)
-            })
-          }}
-        >
-          {ConfigField}
-        </SchemaForm>
+        <SchemaForm actions={formActions}>{ConfigField}</SchemaForm>
       </div>
     </Container>
   )

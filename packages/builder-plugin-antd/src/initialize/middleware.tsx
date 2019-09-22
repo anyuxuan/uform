@@ -8,8 +8,9 @@ const LAYOUT_FIELDS = ['layout']
 
 registerFieldMiddleware(Field => {
   return props => {
-    const { api } = useContext(BuilderContext)
+    const { api, global } = useContext(BuilderContext)
     const { actions } = api
+    const { currentFieldName } = global
     const { name, schema } = props
     if (!name) {
       return <Field {...props} />
@@ -30,6 +31,7 @@ registerFieldMiddleware(Field => {
       [actions, schema]
     )
     const cls = classNames(schema.className, 'field-wrapper', {
+      active: name === currentFieldName,
       layout: LAYOUT_FIELDS.some(
         type => type === schema['x-component'] || type === schema.type
       )

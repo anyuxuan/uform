@@ -12,6 +12,10 @@ export const Container = styled.div`
       border: 1px solid transparent;
       position: relative;
 
+      &.active {
+        border: 1px solid blue !important;
+      }
+
       &:before {
         content: ' ';
         position: absolute;
@@ -37,6 +41,10 @@ export const Container = styled.div`
       & > .field-wrapper {
         border: 1px solid transparent;
         position: relative;
+
+        &.active {
+          border: 1px solid blue !important;
+        }
 
         &:before {
           content: ' ';

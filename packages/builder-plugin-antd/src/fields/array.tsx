@@ -9,19 +9,19 @@ registerComponent('array', {
     label: '数组',
     'x-component': 'array'
   },
-  renderer: () => {
+  renderer: ({ ctx }) => {
+    const { api } = ctx
+    const { actions } = api
     return (
       <Fragment>
         <Field
           type="string"
           title="标题"
           name="title"
-          x-effect={dispatch => ({
+          x-effect={() => ({
             onChange(e) {
               const { value } = e.target
-              dispatch('onAlterPreviewField', {
-                title: value
-              })
+              actions.alterField({ title: value })
             }
           })}
         />

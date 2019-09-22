@@ -1,14 +1,12 @@
 import { isObj, isArr } from '@uform/utils'
 
-export const noop = () => {}
+export const noop = (...params: any[]): any => {}
 
-export const deepMapObj = (obj, fn, initial = {}) => {
+export const deepMapObj = (obj, fn = noop, initial = {}) => {
   return Object.entries(obj).reduce((acc, [key, value]) => {
-    acc[key] = fn(value, key) || value
-    if (isObj(value) && value != null) {
-      if (!isArr(value)) {
-        acc[key] = deepMapObj(value, fn)
-      }
+    acc[key] = fn(value, key, obj) || value
+    if (isObj(value) && !isArr(value) && value != null) {
+      deepMapObj(acc[key], fn, acc[key])
     }
     return acc
   }, initial)
