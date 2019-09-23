@@ -86,6 +86,13 @@ const ConfigPanel = ({ props, ctx }) => {
             $('onFieldChange', 'default').subscribe(fieldProps => {
               const { value } = fieldProps
               actions.alterField({ default: value })
+              const currentFieldProps = actions.getCurrentFieldProps()
+              const { name } = currentFieldProps.current
+              if (name) {
+                actions.setFieldState(name, fieldState => {
+                  fieldState.value = value
+                })
+              }
             })
             $('onFieldChange', 'key').subscribe(fieldProps => {
               actions.alterField({})
@@ -95,14 +102,34 @@ const ConfigPanel = ({ props, ctx }) => {
             })
             $('onFieldChange', 'fields').subscribe(fieldProps => {
               // console.log(fieldProps, 'fieldProps')
+              const { value } = fieldProps
+              const currentFieldProps = actions.getCurrentFieldProps()
+              const { uniqueId } = currentFieldProps.current
+              const formSchema = actions.getSchema('')
+              // console.log(formSchema, 'formSchema')
+              deepMapObj(formSchema, (data, key) => {
+                const { properties } = data
+                // 找到当前选中的字段
+                if (key === uniqueId && properties) {
+                  if (Array.isArray(value)) {
+                    Object.keys(properties).forEach(key => {
+                      const index = key.split('.')[1]
+                      if (!value[index]) {
+                        actions.deleteField(properties[key].uniqueId)
+                      }
+                    })
+                  }
+                }
+              })
             })
             $('onFieldChange', 'fields.*').subscribe(fieldProps => {
               const { name, value, path } = fieldProps
               if (!value) {
                 return
               }
-              // TODO: 删除字段，无法实时在预览区域展现
+              // TODO: 删除字段后，再添加有问题
               // TODO: 先选择开关，再选择数组，就会报错
+              // TODO: layout中增加字段，修改内部字段的title，再选中layout，内部字段的title变成了默认值
               const currentFieldProps = actions.getCurrentFieldProps()
               const { uniqueId } = currentFieldProps.current
               const formSchema = actions.getSchema('')
@@ -111,7 +138,7 @@ const ConfigPanel = ({ props, ctx }) => {
               deepMapObj(formSchema, (data, key) => {
                 const item = data[propertyKey]
                 if (key === uniqueId && item && item['x-component'] === value) {
-                  fieldSchema = data[propertyKey]
+                  fieldSchema = item
                 }
               })
               const property = {

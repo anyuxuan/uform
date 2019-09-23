@@ -1,10 +1,8 @@
-import { useRef, useEffect } from 'react'
+import { useRef } from 'react'
 
 const useCurrent = value => {
   const ref = useRef(null)
-  useEffect(() => {
-    ref.current = value
-  })
+  ref.current = value
   return ref
 }
 

@@ -23,7 +23,6 @@ const DEFAULT_SCHEMA: ISchema = {
 }
 
 const reducer: React.Reducer<ISchema, ISchemaAction> = (state, action) => {
-  const properties = {}
   switch (action.type) {
     case SCHEMA_ACTIONS.ADD: {
       const { property } = action.payload
@@ -36,15 +35,13 @@ const reducer: React.Reducer<ISchema, ISchemaAction> = (state, action) => {
       }
     }
     case SCHEMA_ACTIONS.DELETE: {
-      Object.entries(state.properties).forEach(([key, value]) => {
-        if (key !== action.payload) {
-          properties[key] = value
+      const { uniqueId } = action.payload
+      const clonedState = clone(state)
+      return deepMapObj(clonedState, (value, key, obj) => {
+        if (value.uniqueId === uniqueId) {
+          delete obj[key]
         }
       })
-      return {
-        ...state,
-        properties
-      }
     }
     case SCHEMA_ACTIONS.ALTER: {
       const { property, uniqueId } = action.payload

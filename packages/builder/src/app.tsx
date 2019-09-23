@@ -65,10 +65,13 @@ const App = props => {
           }
         })
       },
-      deleteField: () => {
+      deleteField: (id?: string) => {
+        const { uniqueId } = currentFieldProps.current
         dispatchSchemaAction({
           type: SCHEMA_ACTIONS.DELETE,
-          payload: currentFieldName
+          payload: {
+            uniqueId: id || uniqueId
+          }
         })
       },
       alterField: (property: ISchema, id?: string) => {
