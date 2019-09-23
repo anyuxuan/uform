@@ -15,10 +15,13 @@ registerComponent('layout', {
   },
   renderer: () => {
     const components = getComponents()
-    const fieldsEnum = Object.entries(components).map(([name, data]) => ({
-      label: data.meta ? data.meta.label : '',
-      value: name
-    }))
+    const fieldsEnum = Object.keys(components).map(key => {
+      const item = components[key]
+      return {
+        label: item && item.meta ? item.meta.label : '',
+        value: key
+      }
+    })
     return (
       <Fragment>
         <Field name="fields" title="添加字段" type="array">

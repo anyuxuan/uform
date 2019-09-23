@@ -9,7 +9,8 @@ import {
   getConfigData,
   getDefaultSchema,
   setConfigData,
-  usePrevious
+  usePrevious,
+  deepMapObj
 } from '@uform/builder'
 import { Container } from './style'
 
@@ -89,6 +90,9 @@ const ConfigPanel = ({ props, ctx }) => {
             $('onFieldChange', 'key').subscribe(fieldProps => {
               actions.alterField({})
             })
+            $('onFieldChange', '*').subscribe(fieldProps => {
+              // console.log(fieldProps, 'fieldProps')
+            })
             $('onFieldChange', 'fields').subscribe(fieldProps => {
               // console.log(fieldProps, 'fieldProps')
             })
@@ -99,19 +103,25 @@ const ConfigPanel = ({ props, ctx }) => {
               }
               // TODO: 删除字段，无法实时在预览区域展现
               // TODO: 先选择开关，再选择数组，就会报错
-              // TODO: 新增加一个字段后，之前的字段变成了默认值
-              // console.log(fieldProps, 'aaaa')
               const currentFieldProps = actions.getCurrentFieldProps()
               const { uniqueId } = currentFieldProps.current
+              const formSchema = actions.getSchema('')
+              const propertyKey = `${uniqueId}_${name}`
+              let fieldSchema = getDefaultSchema(value)
+              deepMapObj(formSchema, (data, key) => {
+                const item = data[propertyKey]
+                if (key === uniqueId && item && item['x-component'] === value) {
+                  fieldSchema = data[propertyKey]
+                }
+              })
               const property = {
-                [`${uniqueId}_${name}`]: {
-                  ...getDefaultSchema(value),
+                [propertyKey]: {
+                  ...fieldSchema,
                   'x-index': path[1],
                   uniqueId: uuid()
                 }
               }
               actions.addFieldProperty(property)
-              actions.addFieldProperty()
             })
           }}
         >

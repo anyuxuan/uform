@@ -7,6 +7,7 @@ export * from './renderer'
 export * from './shared'
 export * from './hooks'
 export * from './types'
+export * from './utils'
 
 export { default as BuilderContextProvider } from './app'
 
