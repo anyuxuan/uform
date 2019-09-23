@@ -101,16 +101,16 @@ const ConfigPanel = ({ props, ctx }) => {
               // console.log(fieldProps, 'fieldProps')
             })
             $('onFieldChange', 'fields').subscribe(fieldProps => {
-              // console.log(fieldProps, 'fieldProps')
+              // console.log(fieldProps, 'fields -> fieldProps')
               const { value } = fieldProps
               const currentFieldProps = actions.getCurrentFieldProps()
               const { uniqueId } = currentFieldProps.current
               const formSchema = actions.getSchema('')
               // console.log(formSchema, 'formSchema')
-              deepMapObj(formSchema, (data, key) => {
-                const { properties } = data
+              deepMapObj(formSchema, data => {
+                const { properties, uniqueId: innerId } = data
                 // 找到当前选中的字段
-                if (key === uniqueId && properties) {
+                if (innerId === uniqueId && properties) {
                   if (Array.isArray(value)) {
                     Object.keys(properties).forEach(key => {
                       const index = key.split('.')[1]
@@ -127,28 +127,39 @@ const ConfigPanel = ({ props, ctx }) => {
               if (!value) {
                 return
               }
-              // TODO: 删除字段后，再添加有问题
+              // console.log(fieldProps, 'fields.* -> fieldProps')
+              // TODO: 删除字段后，再添加会有问题
               // TODO: 先选择开关，再选择数组，就会报错
               // TODO: layout中增加字段，修改内部字段的title，再选中layout，内部字段的title变成了默认值
               const currentFieldProps = actions.getCurrentFieldProps()
               const { uniqueId } = currentFieldProps.current
               const formSchema = actions.getSchema('')
               const propertyKey = `${uniqueId}_${name}`
-              let fieldSchema = getDefaultSchema(value)
-              deepMapObj(formSchema, (data, key) => {
+              const propertyList = []
+              deepMapObj(formSchema, data => {
                 const item = data[propertyKey]
-                if (key === uniqueId && item && item['x-component'] === value) {
-                  fieldSchema = item
+                if (item && item['x-component'] === value) {
+                  propertyList.push({
+                    uniqueId,
+                    property: {
+                      [propertyKey]: item
+                    }
+                  })
                 }
               })
-              const property = {
-                [propertyKey]: {
-                  ...fieldSchema,
-                  'x-index': path[1],
-                  uniqueId: uuid()
-                }
+              if (!propertyList.length) {
+                actions.addFieldProperty({
+                  [propertyKey]: {
+                    ...getDefaultSchema(value),
+                    'x-index': path[1],
+                    uniqueId: uuid()
+                  }
+                })
+              } else {
+                propertyList.forEach(item => {
+                  actions.addFieldProperty(item.property, item.uniqueId)
+                })
               }
-              actions.addFieldProperty(property)
             })
           }}
         >
