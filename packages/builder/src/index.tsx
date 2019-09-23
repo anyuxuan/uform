@@ -10,27 +10,24 @@ export * from './types'
 
 export { default as BuilderContextProvider } from './app'
 
+const ACTION_NAMES = [
+  'addField',
+  'deleteField',
+  'alterField',
+  'addFieldProperty',
+  'clickField',
+  'getCurrentFieldProps',
+  'setPanelVisible',
+  'dispatch'
+]
+
 // TODO: 使用mergeActions会出现actions未声明问题，不知道为什么
 export const createBuilderActions = () => ({
-  ...createActions(
-    'addField',
-    'deleteField',
-    'alterField',
-    'addFieldProperty',
-    'clickField',
-    'dispatch'
-  ),
+  ...createActions(...ACTION_NAMES),
   ...createFormActions()
 })
 
 export const createAsyncBuilderActions = () => ({
-  ...createAsyncActions(
-    'addField',
-    'deleteField',
-    'alterField',
-    'addFieldProperty',
-    'clickField',
-    'dispatch'
-  ),
+  ...createAsyncActions(...ACTION_NAMES),
   ...createAsyncFormActions()
 })

@@ -9,22 +9,10 @@ registerComponent('array', {
     label: '数组',
     'x-component': 'array'
   },
-  renderer: ({ ctx }) => {
-    const { api } = ctx
-    const { actions } = api
+  renderer: () => {
     return (
       <Fragment>
-        <Field
-          type="string"
-          title="标题"
-          name="title"
-          x-effect={() => ({
-            onChange(e) {
-              const { value } = e.target
-              actions.alterField({ title: value })
-            }
-          })}
-        />
+        <Field type="string" title="标题" name="title" />
       </Fragment>
     )
   },

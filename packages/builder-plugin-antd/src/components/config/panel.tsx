@@ -1,11 +1,13 @@
 import React, { useCallback, useMemo } from 'react'
 import classNames from 'classnames'
+import uuid from 'uuid'
 import { isEmpty, isFn } from '@uform/utils'
 import { SchemaForm, createFormActions } from '@uform/antd'
 import {
   connectProps,
   getComponent,
   getConfigData,
+  getDefaultSchema,
   setConfigData,
   usePrevious
 } from '@uform/builder'
@@ -15,8 +17,9 @@ const formActions = createFormActions()
 
 const ConfigPanel = ({ props, ctx }) => {
   const { className, ...others } = props
-  const { global } = ctx
+  const { global, api } = ctx
   const { currentFieldType, currentFieldName } = global
+  const { actions } = api
   const prevFieldName = usePrevious(currentFieldName)
 
   const wrapperCls = classNames(className, 'config-panel')
@@ -36,7 +39,7 @@ const ConfigPanel = ({ props, ctx }) => {
         target: 'configPanel'
       }
     })(element)
-  }, [ctx, formActions, currentFieldType, getComponent, connectProps])
+  }, [ctx, currentFieldType])
 
   const getInitialValues = useCallback(() => {
     const component = getComponent(currentFieldType)
@@ -44,7 +47,7 @@ const ConfigPanel = ({ props, ctx }) => {
       return component.getDefaultValue()
     }
     return {}
-  }, [getComponent, isFn, currentFieldType])
+  }, [currentFieldType])
 
   // 在预览区域点击不同的字段时，配置区域显示对应的配置项及数据
   if (
@@ -72,7 +75,48 @@ const ConfigPanel = ({ props, ctx }) => {
     <Container className={wrapperCls} {...others}>
       <div className="header">配置区</div>
       <div className="container">
-        <SchemaForm actions={formActions}>{ConfigField}</SchemaForm>
+        <SchemaForm
+          actions={formActions}
+          effects={$ => {
+            $('onFieldChange', 'title').subscribe(fieldProps => {
+              const { value } = fieldProps
+              actions.alterField({ title: value })
+            })
+            $('onFieldChange', 'default').subscribe(fieldProps => {
+              const { value } = fieldProps
+              actions.alterField({ default: value })
+            })
+            $('onFieldChange', 'key').subscribe(fieldProps => {
+              actions.alterField({})
+            })
+            $('onFieldChange', 'fields').subscribe(fieldProps => {
+              // console.log(fieldProps, 'fieldProps')
+            })
+            $('onFieldChange', 'fields.*').subscribe(fieldProps => {
+              const { name, value, path } = fieldProps
+              if (!value) {
+                return
+              }
+              // TODO: 删除字段，无法实时在预览区域展现
+              // TODO: 先选择开关，再选择数组，就会报错
+              // TODO: 新增加一个字段后，之前的字段变成了默认值
+              // console.log(fieldProps, 'aaaa')
+              const currentFieldProps = actions.getCurrentFieldProps()
+              const { uniqueId } = currentFieldProps.current
+              const property = {
+                [`${uniqueId}_${name}`]: {
+                  ...getDefaultSchema(value),
+                  'x-index': path[1],
+                  uniqueId: uuid()
+                }
+              }
+              actions.addFieldProperty(property)
+              actions.addFieldProperty()
+            })
+          }}
+        >
+          {ConfigField}
+        </SchemaForm>
       </div>
     </Container>
   )

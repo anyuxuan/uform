@@ -23,7 +23,7 @@ const AsidePanel = ({ props, ctx }) => {
 
   const setPanelVisible = useCallback(
     type => () => {
-      actions.dispatch('onSetPanelVisible', type)
+      actions.setPanelVisible(type)
     },
     [actions]
   )

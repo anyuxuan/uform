@@ -1,10 +1,8 @@
 import React, { Fragment } from 'react'
-import uuid from 'uuid'
 import {
   registerComponent,
   registerDefaultSchema,
-  getComponents,
-  getDefaultSchema
+  getComponents
 } from '@uform/builder'
 import { Field } from '@uform/antd'
 
@@ -15,43 +13,16 @@ registerComponent('layout', {
     label: '布局组件',
     'x-component': 'layout'
   },
-  renderer: ({ actions: formActions, ctx }) => {
-    const { api } = ctx
-    const { actions } = api
+  renderer: () => {
     const components = getComponents()
     const fieldsEnum = Object.entries(components).map(([name, data]) => ({
-      label: data.meta.label,
+      label: data.meta ? data.meta.label : '',
       value: name
     }))
     return (
       <Fragment>
         <Field name="fields" title="添加字段" type="array">
-          <Field
-            type="string"
-            enum={fieldsEnum}
-            x-effect={() => ({
-              onChange() {
-                // TODO: 上移/下移，删除字段，无法实时在预览区域展现
-                formActions.getFormState(formState => {
-                  const { fields } = formState.values || {}
-                  if (Array.isArray(fields)) {
-                    fields.forEach((fieldType, index) => {
-                      if (fieldType) {
-                        const property = {
-                          [`field-${index}`]: {
-                            ...getDefaultSchema(fieldType),
-                            'x-index': index,
-                            uniqueId: uuid()
-                          }
-                        }
-                        actions.addFieldProperty(property)
-                      }
-                    })
-                  }
-                })
-              }
-            })}
-          />
+          <Field type="string" enum={fieldsEnum} />
         </Field>
       </Fragment>
     )

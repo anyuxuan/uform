@@ -15,14 +15,14 @@ registerComponent('checkbox', {
       {/*<Field*/}
       {/*  type="string"*/}
       {/*  title="默认选中项"*/}
-      {/*  name="defaultValue"*/}
+      {/*  name="default"*/}
       {/*  x-component="checkbox"*/}
       {/*/>*/}
     </Fragment>
   ),
   getDefaultValue: () => ({
     title: '多选框',
-    defaultValue: 1
+    default: 1
   })
 })
 

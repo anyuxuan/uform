@@ -15,14 +15,14 @@ registerComponent('boolean', {
       <Field
         type="string"
         title="默认值"
-        name="defaultValue"
+        name="default"
         x-component="boolean"
       />
     </Fragment>
   ),
   getDefaultValue: () => ({
     title: '开关',
-    defaultValue: true
+    default: true
   })
 })
 

@@ -6,24 +6,24 @@ import { Container } from './style'
 const FieldPanel = ({ props, ctx }) => {
   const { api, global } = ctx
   const { actions } = api
-  const { panelVisibleMap } = global
+  const { panelVisible } = global
   const { className, ...others } = props
   const wrapperCls = classNames(className, 'field-panel')
 
-  const components = useMemo(() => getComponents(), [getComponents])
+  const components = useMemo(() => getComponents(), [])
 
   const onClickItem = useCallback(
     fieldType => () => {
       actions.addField(fieldType)
     },
-    []
+    [actions]
   )
 
   return (
     <Container
       className={wrapperCls}
       {...others}
-      visible={panelVisibleMap.fieldPanel}
+      visible={panelVisible.fieldPanel}
     >
       <div className="header">组件</div>
       <div className="field-area">

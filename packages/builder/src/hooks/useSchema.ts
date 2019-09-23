@@ -63,17 +63,9 @@ const reducer: React.Reducer<ISchema, ISchemaAction> = (state, action) => {
       const clonedState = clone(state)
       return deepMapObj(clonedState, value => {
         if (value && value.uniqueId === uniqueId) {
-          const newProperty = Object.entries(property).reduce(
-            (acc, [fieldKey, fieldProperty]) => {
-              const newKey = `${uniqueId}_${fieldKey}`
-              acc[newKey] = fieldProperty
-              return acc
-            },
-            {}
-          )
           value.properties = {
             ...value.properties,
-            ...newProperty
+            ...property
           }
         }
       })
