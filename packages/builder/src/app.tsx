@@ -1,9 +1,14 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { createEffects, useEva } from 'react-eva'
 import uuid from 'uuid'
 import { isEmpty, isFn } from '@uform/utils'
 import { ISchema } from '@uform/types'
-import { applyPlugins, getDefaultSchema, BuilderContext } from './shared'
+import {
+  applyPlugins,
+  getDefaultSchema,
+  BuilderContext,
+  applyHooks
+} from './shared'
 import {
   SCHEMA_ACTIONS,
   useApi,
@@ -106,7 +111,12 @@ const App = props => {
     // 执行所有注册的插件
     applyPlugins(api)
     initialized = true
+    applyHooks('onInit')
   }
+
+  useEffect(() => {
+    applyHooks('onMount')
+  }, [])
 
   // useEffect(() => {
   //   console.log(schema, 'schema')

@@ -107,6 +107,7 @@ const ConfigPanel = ({ props, ctx }) => {
               const { uniqueId } = currentFieldProps.current
               const formSchema = actions.getSchema('')
               // console.log(formSchema, 'formSchema')
+              const deletedIds = []
               deepMapObj(formSchema, data => {
                 const { properties, uniqueId: innerId } = data
                 // 找到当前选中的字段
@@ -115,12 +116,13 @@ const ConfigPanel = ({ props, ctx }) => {
                     Object.keys(properties).forEach(key => {
                       const index = key.split('.')[1]
                       if (!value[index]) {
-                        actions.deleteField(properties[key].uniqueId)
+                        deletedIds.push(properties[key].uniqueId)
                       }
                     })
                   }
                 }
               })
+              deletedIds.forEach(id => actions.deleteField(id))
             })
             $('onFieldChange', 'fields.*').subscribe(fieldProps => {
               const { name, value, path } = fieldProps
@@ -130,7 +132,6 @@ const ConfigPanel = ({ props, ctx }) => {
               // console.log(fieldProps, 'fields.* -> fieldProps')
               // TODO: 删除字段后，再添加会有问题
               // TODO: 先选择开关，再选择数组，就会报错
-              // TODO: layout中增加字段，修改内部字段的title，再选中layout，内部字段的title变成了默认值
               const currentFieldProps = actions.getCurrentFieldProps()
               const { uniqueId } = currentFieldProps.current
               const formSchema = actions.getSchema('')
@@ -160,6 +161,9 @@ const ConfigPanel = ({ props, ctx }) => {
                   actions.addFieldProperty(item.property, item.uniqueId)
                 })
               }
+              actions.getFormState(formState => {
+                // console.log(formState, 'formState')
+              })
             })
           }}
         >

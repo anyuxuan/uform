@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
-import { noop } from '../utils'
-import { renderers } from '../shared'
+import { applyHooks, registerHooks, removeHooks, renderers } from '../shared'
 import { IBuilderApi } from '../types'
 
 const useApi = (api: Partial<IBuilderApi>): IBuilderApi => {
@@ -8,9 +7,21 @@ const useApi = (api: Partial<IBuilderApi>): IBuilderApi => {
     actions: api.actions,
     renderers,
     hooks: {
-      onInit: noop,
-      onMount: noop,
-      trigger: noop
+      onInit: hook => {
+        registerHooks('onInit', hook)
+      },
+      onMount: hook => {
+        registerHooks('onMount', hook)
+      },
+      on: (name, hook) => {
+        registerHooks(name, hook)
+      },
+      trigger: name => {
+        applyHooks(name)
+      },
+      remove: (name, hook) => {
+        removeHooks(name, hook)
+      }
     }
   }
   return useMemo(

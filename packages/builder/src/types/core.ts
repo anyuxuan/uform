@@ -31,6 +31,12 @@ export interface IDefaultSchema {
   [k: string]: ISchema
 }
 
+export interface IHooks {
+  [k: string]: IHooksFn[]
+}
+
+export type IHooksFn = (...params: any[]) => any
+
 export interface IConnectedProps {
   [k: string]: any
 }
@@ -55,9 +61,11 @@ export interface IBuilderRenderers {
 }
 
 export interface IBuilderHooks {
-  onInit: any
-  onMount: any
-  trigger: any
+  onInit: (hook: IHooksFn) => any
+  onMount: (hook: IHooksFn) => any
+  on: (name: string, hook: IHooksFn) => any
+  trigger: (name: string) => any
+  remove: (name: string, hook?: IHooksFn) => any
 }
 
 export interface IBuilderApi {

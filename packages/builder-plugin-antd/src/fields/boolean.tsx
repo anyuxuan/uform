@@ -22,7 +22,7 @@ registerComponent('boolean', {
   ),
   getDefaultValue: () => ({
     title: '开关',
-    default: true
+    default: false
   })
 })
 
@@ -30,6 +30,5 @@ registerDefaultSchema('boolean', {
   type: 'boolean',
   'x-component': 'boolean',
   title: '开关',
-  default: true,
   properties: {}
 })

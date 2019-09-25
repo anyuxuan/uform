@@ -7,6 +7,8 @@ import {
   IComponentData,
   IDefaultSchema,
   IPlugin,
+  IHooks,
+  IHooksFn,
   IConnectedProps,
   IBuilderApi
 } from '../types'
@@ -16,6 +18,8 @@ const COMPONENTS_MAP: IComponentMap = {}
 const DEFAULT_SCHEMA: IDefaultSchema = {}
 
 const PLUGINS: IPlugin[] = []
+
+const HOOKS: IHooks = {}
 
 // 注册组件
 export const registerComponent = (name: string, data: IComponentData) => {
@@ -66,6 +70,33 @@ export const registerPlugins = (plugins: IPlugin[]) => {
 
 export const applyPlugins = (api: IBuilderApi) => {
   PLUGINS.forEach(plugin => plugin(api))
+}
+
+// 注册钩子方法
+export const registerHooks = (name: string, hook: IHooksFn) => {
+  if (!HOOKS[name]) {
+    HOOKS[name] = [hook]
+  } else {
+    HOOKS[name].push(hook)
+  }
+}
+
+export const applyHooks = (name: string) => {
+  if (!HOOKS[name]) {
+    return
+  }
+  HOOKS[name].forEach(hook => hook())
+}
+
+export const removeHooks = (name: string, hook?: IHooksFn) => {
+  if (!HOOKS[name]) {
+    return
+  }
+  if (hook) {
+    HOOKS[name] = HOOKS[name].filter(fn => fn !== hook)
+  } else {
+    delete HOOKS[name]
+  }
 }
 
 // 为react组件传递一些属性
