@@ -147,19 +147,17 @@ const ConfigPanel = ({ props, ctx }) => {
               const currentFieldProps = actions.getCurrentFieldProps()
               const { uniqueId } = currentFieldProps.current
               const propertyKey = `${uniqueId}_${name}`
-              actions.setFieldState(propertyKey, fieldState => {
-                if (isEmpty(fieldState.props)) {
-                  return
-                }
-                if (fieldState.props['x-component'] != value) {
-                  fieldState.props = getDefaultSchema(value)
-                }
-              })
               const fieldState = actions.getFieldState(propertyKey)
               if (
                 isEmpty(fieldState) ||
                 (fieldState && fieldState.props['x-component'] !== value)
               ) {
+                actions.setFieldState(propertyKey, fieldState => {
+                  if (isEmpty(fieldState.props)) {
+                    return
+                  }
+                  fieldState.props = getDefaultSchema(value)
+                })
                 actions.addFieldProperty({
                   [propertyKey]: {
                     ...getDefaultSchema(value),
