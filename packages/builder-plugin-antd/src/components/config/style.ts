@@ -18,6 +18,10 @@ export const Container = styled.div`
 
     .container {
       padding: 20px;
+
+      .fields-array-item {
+        min-width: 100%;
+      }
     }
   }
 `

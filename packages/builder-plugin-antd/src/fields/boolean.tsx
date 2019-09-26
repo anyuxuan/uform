@@ -18,11 +18,11 @@ registerComponent('boolean', {
         name="default"
         x-component="boolean"
       />
+      <Field type="string" title="描述信息" name="description" />
     </Fragment>
   ),
   getDefaultValue: () => ({
-    title: '开关',
-    default: false
+    title: '开关'
   })
 })
 

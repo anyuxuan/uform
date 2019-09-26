@@ -19,12 +19,19 @@ registerComponent('layout', {
       const item = components[key]
       return {
         label: item && item.meta ? item.meta.label : '',
-        value: key
+        value: item.meta['x-component']
       }
     })
     return (
       <Fragment>
-        <Field name="fields" title="添加字段" type="array">
+        <Field
+          name="fields"
+          title="添加字段"
+          type="array"
+          x-props={{
+            className: 'fields-array-item'
+          }}
+        >
           <Field type="string" enum={fieldsEnum} />
         </Field>
       </Fragment>

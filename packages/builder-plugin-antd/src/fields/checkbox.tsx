@@ -18,6 +18,7 @@ registerComponent('checkbox', {
       {/*  name="default"*/}
       {/*  x-component="checkbox"*/}
       {/*/>*/}
+      <Field type="string" title="描述信息" name="description" />
     </Fragment>
   ),
   getDefaultValue: () => ({

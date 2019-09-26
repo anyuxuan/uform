@@ -35,10 +35,8 @@ const ConfigPanel = ({ props, ctx }) => {
       ctx
     })
     return connectProps({
-      'x-props': {
-        // 用来标识该Field是配置面板中的Field
-        target: 'configPanel'
-      }
+      // 用来标识该Field是配置面板中的Field
+      __target__: 'configPanel'
     })(element)
   }, [ctx, currentFieldType])
 
@@ -94,6 +92,10 @@ const ConfigPanel = ({ props, ctx }) => {
                 })
               }
             })
+            $('onFieldChange', 'description').subscribe(fieldProps => {
+              const { value } = fieldProps
+              actions.alterField({ description: value })
+            })
             $('onFieldChange', 'key').subscribe(fieldProps => {
               actions.alterField({})
             })
@@ -148,6 +150,10 @@ const ConfigPanel = ({ props, ctx }) => {
                   })
                 }
               })
+              // actions.setFieldState(propertyKey, fieldState => {
+              //   console.log(fieldState, 'fieldState')
+              //   fieldState.value = undefined
+              // })
               if (!propertyList.length) {
                 actions.addFieldProperty({
                   [propertyKey]: {
@@ -161,9 +167,9 @@ const ConfigPanel = ({ props, ctx }) => {
                   actions.addFieldProperty(item.property, item.uniqueId)
                 })
               }
-              actions.getFormState(formState => {
-                // console.log(formState, 'formState')
-              })
+              // actions.getFormState(formState => {
+              //   console.log(formState, 'formState')
+              // })
             })
           }}
         >

@@ -18,7 +18,7 @@ registerFieldMiddleware(Field => {
     const onClick = useCallback(
       e => {
         e.stopPropagation()
-        if (schema['x-props'] && schema['x-props'].target === 'configPanel') {
+        if (schema.__target__ === 'configPanel') {
           return
         }
         // 只有点击预览面板中字段，才会触发onClickField事件
