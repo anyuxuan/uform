@@ -81,6 +81,15 @@ const ConfigPanel = ({ props, ctx }) => {
               actions.alterField({ title: value })
             })
 
+            $('onFieldChange', 'cardTitle').subscribe(fieldProps => {
+              const { value } = fieldProps
+              actions.alterField({
+                'x-props': {
+                  title: value
+                }
+              })
+            })
+
             $('onFieldChange', 'default').subscribe(fieldProps => {
               const { value } = fieldProps
               actions.alterField({ default: value })
