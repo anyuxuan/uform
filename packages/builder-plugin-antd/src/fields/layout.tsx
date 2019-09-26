@@ -19,7 +19,7 @@ registerComponent('layout', {
       const item = components[key]
       return {
         label: item && item.meta ? item.meta.label : '',
-        value: item.meta['x-component']
+        value: item && item.meta ? item.meta['x-component'] : ''
       }
     })
     return (

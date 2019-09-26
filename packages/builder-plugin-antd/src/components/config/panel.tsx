@@ -7,10 +7,12 @@ import {
   connectProps,
   getComponent,
   getConfigData,
+  deleteConfigData,
   getDefaultSchema,
   setConfigData,
   usePrevious,
-  deepMapObj
+  deepMapObj,
+  isPlainObj
 } from '@uform/builder'
 import { Container } from './style'
 
@@ -19,9 +21,9 @@ const formActions = createFormActions()
 const ConfigPanel = ({ props, ctx }) => {
   const { className, ...others } = props
   const { global, api } = ctx
-  const { currentFieldType, currentFieldName } = global
+  const { currentFieldType, currentUniqueId } = global
   const { actions } = api
-  const prevFieldName = usePrevious(currentFieldName)
+  const prevUniqueId = usePrevious(currentUniqueId)
 
   const wrapperCls = classNames(className, 'config-panel')
 
@@ -49,20 +51,17 @@ const ConfigPanel = ({ props, ctx }) => {
   }, [currentFieldType])
 
   // 在预览区域点击不同的字段时，配置区域显示对应的配置项及数据
-  if (
-    (prevFieldName || currentFieldName) &&
-    prevFieldName !== currentFieldName
-  ) {
+  if ((prevUniqueId || currentUniqueId) && prevUniqueId !== currentUniqueId) {
     formActions.getFormState(prevFormState => {
-      if (!prevFieldName && currentFieldName) {
-        setConfigData(currentFieldName, getInitialValues())
+      if (!prevUniqueId && currentUniqueId) {
+        setConfigData(currentUniqueId, getInitialValues())
       } else {
         // 存储上一个字段的配置项数据
-        setConfigData(prevFieldName, prevFormState.values)
+        setConfigData(prevUniqueId, prevFormState.values)
       }
       // 设置当前选中字段的配置项数据
       formActions.setFormState(formState => {
-        const configData = getConfigData(currentFieldName)
+        const configData = getConfigData(currentUniqueId)
         formState.values = !isEmpty(configData)
           ? configData
           : getInitialValues()
@@ -81,6 +80,7 @@ const ConfigPanel = ({ props, ctx }) => {
               const { value } = fieldProps
               actions.alterField({ title: value })
             })
+
             $('onFieldChange', 'default').subscribe(fieldProps => {
               const { value } = fieldProps
               actions.alterField({ default: value })
@@ -92,16 +92,20 @@ const ConfigPanel = ({ props, ctx }) => {
                 })
               }
             })
+
             $('onFieldChange', 'description').subscribe(fieldProps => {
               const { value } = fieldProps
               actions.alterField({ description: value })
             })
+
             $('onFieldChange', 'key').subscribe(fieldProps => {
               actions.alterField({})
             })
+
             $('onFieldChange', '*').subscribe(fieldProps => {
               // console.log(fieldProps, 'fieldProps')
             })
+
             $('onFieldChange', 'fields').subscribe(fieldProps => {
               // console.log(fieldProps, 'fields -> fieldProps')
               const { value } = fieldProps
@@ -111,6 +115,9 @@ const ConfigPanel = ({ props, ctx }) => {
               // console.log(formSchema, 'formSchema')
               const deletedIds = []
               deepMapObj(formSchema, data => {
+                if (!isPlainObj(data)) {
+                  return
+                }
                 const { properties, uniqueId: innerId } = data
                 // 找到当前选中的字段
                 if (innerId === uniqueId && properties) {
@@ -124,37 +131,35 @@ const ConfigPanel = ({ props, ctx }) => {
                   }
                 }
               })
-              deletedIds.forEach(id => actions.deleteField(id))
+              deletedIds.forEach(id => {
+                actions.deleteField(id)
+                deleteConfigData(id)
+              })
             })
+
             $('onFieldChange', 'fields.*').subscribe(fieldProps => {
               const { name, value, path } = fieldProps
-              if (!value) {
+              if (isEmpty(value)) {
                 return
               }
               // console.log(fieldProps, 'fields.* -> fieldProps')
-              // TODO: 删除字段后，再添加会有问题
               // TODO: 先选择开关，再选择数组，就会报错
               const currentFieldProps = actions.getCurrentFieldProps()
               const { uniqueId } = currentFieldProps.current
-              const formSchema = actions.getSchema('')
               const propertyKey = `${uniqueId}_${name}`
-              const propertyList = []
-              deepMapObj(formSchema, data => {
-                const item = data[propertyKey]
-                if (item && item['x-component'] === value) {
-                  propertyList.push({
-                    uniqueId,
-                    property: {
-                      [propertyKey]: item
-                    }
-                  })
+              actions.setFieldState(propertyKey, fieldState => {
+                if (isEmpty(fieldState.props)) {
+                  return
+                }
+                if (fieldState.props['x-component'] != value) {
+                  fieldState.props = getDefaultSchema(value)
                 }
               })
-              // actions.setFieldState(propertyKey, fieldState => {
-              //   console.log(fieldState, 'fieldState')
-              //   fieldState.value = undefined
-              // })
-              if (!propertyList.length) {
+              const fieldState = actions.getFieldState(propertyKey)
+              if (
+                isEmpty(fieldState) ||
+                (fieldState && fieldState.props['x-component'] !== value)
+              ) {
                 actions.addFieldProperty({
                   [propertyKey]: {
                     ...getDefaultSchema(value),
@@ -163,13 +168,11 @@ const ConfigPanel = ({ props, ctx }) => {
                   }
                 })
               } else {
-                propertyList.forEach(item => {
-                  actions.addFieldProperty(item.property, item.uniqueId)
-                })
+                actions.addFieldProperty(
+                  { [propertyKey]: fieldState.props },
+                  uniqueId
+                )
               }
-              // actions.getFormState(formState => {
-              //   console.log(formState, 'formState')
-              // })
             })
           }}
         >

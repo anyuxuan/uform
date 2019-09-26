@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react'
 import { clone } from '@uform/utils'
 import { ISchema } from '@uform/types'
-import { deepMapObj } from '../utils'
+import { deepMapObj, isPlainObj } from '../utils'
 
 interface ISchemaAction {
   type: SCHEMA_ACTIONS
@@ -38,6 +38,9 @@ const reducer: React.Reducer<ISchema, ISchemaAction> = (state, action) => {
       const { uniqueId } = action.payload
       const clonedState = clone(state)
       return deepMapObj(clonedState, (value, key, obj) => {
+        if (!isPlainObj(value)) {
+          return
+        }
         if (value.uniqueId === uniqueId) {
           delete obj[key]
         }
@@ -47,7 +50,10 @@ const reducer: React.Reducer<ISchema, ISchemaAction> = (state, action) => {
       const { property, uniqueId } = action.payload
       const clonedState = clone(state)
       return deepMapObj(clonedState, value => {
-        if (value && value.uniqueId === uniqueId) {
+        if (!isPlainObj(value)) {
+          return
+        }
+        if (value.uniqueId === uniqueId) {
           return {
             ...value,
             ...property
@@ -59,7 +65,10 @@ const reducer: React.Reducer<ISchema, ISchemaAction> = (state, action) => {
       const { property, uniqueId } = action.payload
       const clonedState = clone(state)
       return deepMapObj(clonedState, value => {
-        if (value && value.uniqueId === uniqueId) {
+        if (!isPlainObj(value)) {
+          return
+        }
+        if (value.uniqueId === uniqueId) {
           value.properties = {
             ...value.properties,
             ...property

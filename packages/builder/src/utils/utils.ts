@@ -1,6 +1,9 @@
-import { isPlainObj } from '@uform/utils'
-
 export const noop = (...params: any[]): any => {}
+
+export const isType = <T extends any>(type: string) => (data: T): boolean =>
+  Object.prototype.toString.call(data) === `[object ${type}]`
+
+export const isPlainObj = isType<{ [k: string]: any }>('Object')
 
 export const deepMapObj = (obj, fn = noop, initial = {}) => {
   return Object.entries(obj).reduce((acc, [key, value]) => {

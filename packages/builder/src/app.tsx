@@ -127,9 +127,10 @@ const App = props => {
     () => ({
       currentFieldName,
       currentFieldType,
+      currentUniqueId,
       panelVisible
     }),
-    [currentFieldName, currentFieldType, panelVisible]
+    [currentFieldName, currentFieldType, currentUniqueId, panelVisible]
   )
 
   const context = useMemo(
