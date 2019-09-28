@@ -1,9 +1,8 @@
-import { IBuilderApi } from './core'
-import { ISchema } from '@uform/types'
+import { IBuilderApi, IExtendedSchema } from './core'
 
 export interface IBuilderContext {
   effects: any
-  schema: ISchema
+  schema: IExtendedSchema
   global: any
   api: IBuilderApi
 }

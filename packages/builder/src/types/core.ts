@@ -1,6 +1,17 @@
 import React from 'react'
 import { ISchema } from '@uform/types'
 
+type ISchemaEnumItem =
+  | { label: string; value: unknown }
+  | { key: any; title?: any }
+  | string
+  | number
+
+// TODO: ISchema的enum类型需要修改一下，antd的transfer字段的enum需要传入key
+export interface IExtendedSchema extends Omit<ISchema, 'enum'> {
+  enum?: Array<ISchemaEnumItem>
+}
+
 export type IPlugin = (api: any) => any
 
 export interface IComponentMeta {
@@ -28,7 +39,7 @@ export interface IComponentMap {
 }
 
 export interface IDefaultSchema {
-  [k: string]: ISchema
+  [k: string]: IExtendedSchema
 }
 
 export interface IHooks {

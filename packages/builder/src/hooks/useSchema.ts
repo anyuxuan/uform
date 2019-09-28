@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react'
 import { clone } from '@uform/utils'
-import { ISchema } from '@uform/types'
 import { deepMapObj, isPlainObj } from '../utils'
+import { IExtendedSchema } from '../types'
 
 interface ISchemaAction {
   type: SCHEMA_ACTIONS
@@ -17,12 +17,15 @@ export const enum SCHEMA_ACTIONS {
   ADD_ITEMS = 'ADD_ITEMS'
 }
 
-const DEFAULT_SCHEMA: ISchema = {
+const DEFAULT_SCHEMA: IExtendedSchema = {
   type: 'object',
   properties: {}
 }
 
-const reducer: React.Reducer<ISchema, ISchemaAction> = (state, action) => {
+const reducer: React.Reducer<IExtendedSchema, ISchemaAction> = (
+  state,
+  action
+) => {
   switch (action.type) {
     case SCHEMA_ACTIONS.ADD: {
       const { property } = action.payload
@@ -85,7 +88,7 @@ const reducer: React.Reducer<ISchema, ISchemaAction> = (state, action) => {
   }
 }
 
-const useSchema = (schema?: ISchema) => {
+const useSchema = (schema?: IExtendedSchema) => {
   return useReducer(reducer, schema || DEFAULT_SCHEMA)
 }
 

@@ -21,7 +21,6 @@ export const Container = styled.div`
 
     .field-area {
       display: flex;
-      justify-content: space-between;
       flex-wrap: wrap;
       padding: 10px;
 
@@ -31,7 +30,7 @@ export const Container = styled.div`
         align-items: center;
         flex-direction: column;
         cursor: grab;
-        width: 80px;
+        width: 93px;
         height: 88px;
         border-radius: 3px;
 
@@ -49,6 +48,7 @@ export const Container = styled.div`
         .label {
           color: rgba(0, 0, 0, 0.6);
           font-size: 12px;
+          text-align: center;
         }
       }
     }
