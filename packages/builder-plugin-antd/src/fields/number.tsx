@@ -17,7 +17,7 @@ registerComponent('number', {
   ),
   getDefaultValue: () => ({
     title: '数字',
-    default: 1
+    description: ''
   })
 })
 

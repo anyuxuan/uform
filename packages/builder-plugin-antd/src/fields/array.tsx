@@ -18,7 +18,8 @@ registerComponent('array', {
     )
   },
   getDefaultValue: () => ({
-    title: '数组'
+    title: '数组',
+    description: ''
   })
 })
 

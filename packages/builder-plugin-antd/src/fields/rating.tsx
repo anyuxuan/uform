@@ -17,7 +17,7 @@ registerComponent('rating', {
   ),
   getDefaultValue: () => ({
     title: '评分',
-    default: 1
+    description: ''
   })
 })
 

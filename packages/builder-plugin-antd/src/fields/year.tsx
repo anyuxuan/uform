@@ -17,7 +17,7 @@ registerComponent('year', {
   ),
   getDefaultValue: () => ({
     title: '年份选择',
-    default: 1
+    description: ''
   })
 })
 

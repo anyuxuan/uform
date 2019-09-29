@@ -17,7 +17,7 @@ registerComponent('month', {
   ),
   getDefaultValue: () => ({
     title: '月份选择',
-    default: 1
+    description: ''
   })
 })
 

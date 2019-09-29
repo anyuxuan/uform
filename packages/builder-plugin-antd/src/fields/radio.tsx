@@ -17,7 +17,7 @@ registerComponent('radio', {
   ),
   getDefaultValue: () => ({
     title: '单选',
-    default: 1
+    description: ''
   })
 })
 

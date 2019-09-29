@@ -39,7 +39,8 @@ registerComponent('card', {
     )
   },
   getDefaultValue: () => ({
-    cardTitle: '卡片'
+    cardTitle: '卡片',
+    description: ''
   })
 })
 

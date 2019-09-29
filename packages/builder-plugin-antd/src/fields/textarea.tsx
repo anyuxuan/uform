@@ -17,7 +17,7 @@ registerComponent('textarea', {
   ),
   getDefaultValue: () => ({
     title: '多行输入框',
-    default: 1
+    description: ''
   })
 })
 

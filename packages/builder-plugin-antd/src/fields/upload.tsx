@@ -13,10 +13,30 @@ registerComponent('upload', {
     <Fragment>
       <Field type="string" title="标题" name="title" />
       <Field type="string" title="描述信息" name="description" />
+      <Field
+        type="string"
+        title="组件类型"
+        name="uploadType"
+        enum={[
+          {
+            label: '卡片',
+            value: 'card'
+          },
+          {
+            label: '拖拽',
+            value: 'dragger'
+          },
+          {
+            label: '文本',
+            value: 'text'
+          }
+        ]}
+      />
     </Fragment>
   ),
   getDefaultValue: () => ({
-    title: '上传'
+    title: '上传',
+    uploadType: 'card'
   })
 })
 

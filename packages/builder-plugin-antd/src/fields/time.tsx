@@ -17,7 +17,7 @@ registerComponent('time', {
   ),
   getDefaultValue: () => ({
     title: '时间选择',
-    default: 1
+    description: ''
   })
 })
 

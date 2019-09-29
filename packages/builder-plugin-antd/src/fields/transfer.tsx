@@ -16,7 +16,8 @@ registerComponent('transfer', {
     </Fragment>
   ),
   getDefaultValue: () => ({
-    title: '穿梭框'
+    title: '穿梭框',
+    description: ''
   })
 })
 

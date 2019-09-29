@@ -17,7 +17,7 @@ registerComponent('password', {
   ),
   getDefaultValue: () => ({
     title: '密码',
-    default: 1
+    description: ''
   })
 })
 

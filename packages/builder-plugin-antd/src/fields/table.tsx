@@ -17,7 +17,7 @@ registerComponent('table', {
   ),
   getDefaultValue: () => ({
     title: '表格',
-    default: 1
+    description: ''
   })
 })
 

@@ -17,7 +17,7 @@ registerComponent('date', {
   ),
   getDefaultValue: () => ({
     title: '日期',
-    default: 1
+    description: ''
   })
 })
 

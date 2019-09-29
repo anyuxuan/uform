@@ -22,7 +22,8 @@ registerComponent('boolean', {
     </Fragment>
   ),
   getDefaultValue: () => ({
-    title: '开关'
+    title: '开关',
+    description: ''
   })
 })
 

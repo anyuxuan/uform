@@ -23,7 +23,7 @@ registerComponent('checkbox', {
   ),
   getDefaultValue: () => ({
     title: '多选',
-    default: 1
+    description: ''
   })
 })
 

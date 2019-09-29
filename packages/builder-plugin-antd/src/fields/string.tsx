@@ -17,7 +17,7 @@ registerComponent('string', {
   ),
   getDefaultValue: () => ({
     title: '输入框',
-    default: 1
+    description: ''
   })
 })
 

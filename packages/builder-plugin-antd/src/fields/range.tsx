@@ -17,7 +17,7 @@ registerComponent('range', {
   ),
   getDefaultValue: () => ({
     title: '范围选择',
-    default: 1
+    description: ''
   })
 })
 

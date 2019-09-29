@@ -17,7 +17,7 @@ registerComponent('daterange', {
   ),
   getDefaultValue: () => ({
     title: '日期区间',
-    default: 1
+    description: ''
   })
 })
 

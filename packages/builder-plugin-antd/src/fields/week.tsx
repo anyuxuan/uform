@@ -17,7 +17,7 @@ registerComponent('week', {
   ),
   getDefaultValue: () => ({
     title: '周选择',
-    default: 1
+    description: ''
   })
 })
 

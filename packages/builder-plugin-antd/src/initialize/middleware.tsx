@@ -28,7 +28,7 @@ registerFieldMiddleware(Field => {
           uniqueId: schema.uniqueId
         })
       },
-      [name, actions, schema]
+      [schema, actions, name]
     )
     const cls = classNames(schema.className, 'field-wrapper', {
       active: name === currentFieldName,
