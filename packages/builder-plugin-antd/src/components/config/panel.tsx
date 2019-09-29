@@ -78,11 +78,17 @@ const ConfigPanel = ({ props, ctx }) => {
           effects={$ => {
             $('onFieldChange', 'title').subscribe(fieldProps => {
               const { value } = fieldProps
+              if (isEmpty(value)) {
+                return
+              }
               actions.alterField({ title: value })
             })
 
             $('onFieldChange', 'cardTitle').subscribe(fieldProps => {
               const { value } = fieldProps
+              if (isEmpty(value)) {
+                return
+              }
               actions.alterField({
                 'x-props': {
                   title: value
@@ -92,6 +98,9 @@ const ConfigPanel = ({ props, ctx }) => {
 
             $('onFieldChange', 'default').subscribe(fieldProps => {
               const { value } = fieldProps
+              if (isEmpty(value)) {
+                return
+              }
               actions.alterField({ default: value })
               const currentFieldProps = actions.getCurrentFieldProps()
               const { name } = currentFieldProps.current
@@ -104,11 +113,38 @@ const ConfigPanel = ({ props, ctx }) => {
 
             $('onFieldChange', 'description').subscribe(fieldProps => {
               const { value } = fieldProps
+              if (isEmpty(value)) {
+                return
+              }
               actions.alterField({ description: value })
             })
 
             $('onFieldChange', 'key').subscribe(fieldProps => {
               actions.alterField({})
+            })
+
+            $('onFieldChange', 'maxItems').subscribe(fieldProps => {
+              const { value } = fieldProps
+              if (isEmpty(value)) {
+                return
+              }
+              actions.alterField({ maxItems: value })
+            })
+
+            $('onFieldChange', 'minItems').subscribe(fieldProps => {
+              const { value } = fieldProps
+              if (isEmpty(value)) {
+                return
+              }
+              actions.alterField({ minItems: value })
+            })
+
+            $('onFieldChange', 'required').subscribe(fieldProps => {
+              const { value } = fieldProps
+              if (isEmpty(value)) {
+                return
+              }
+              actions.alterField({ required: value })
             })
 
             $('onFieldChange', '*').subscribe(fieldProps => {
@@ -118,6 +154,9 @@ const ConfigPanel = ({ props, ctx }) => {
             $('onFieldChange', 'fields').subscribe(fieldProps => {
               // console.log(fieldProps, 'fields -> fieldProps')
               const { value } = fieldProps
+              if (isEmpty(value)) {
+                return
+              }
               const currentFieldProps = actions.getCurrentFieldProps()
               const { uniqueId } = currentFieldProps.current
               const formSchema = actions.getSchema('')

@@ -14,6 +14,25 @@ registerComponent('array', {
       <Fragment>
         <Field type="string" title="标题" name="title" />
         <Field type="string" title="描述信息" name="description" />
+        <Field
+          type="boolean"
+          title="是否必填"
+          name="required"
+          x-component="boolean"
+        />
+        <Field
+          type="string"
+          title="最大条目数"
+          name="maxItems"
+          x-component="number"
+        />
+        <Field
+          type="string"
+          title="最小条目数"
+          name="minItems"
+          x-component="number"
+        />
+        {/*<Field />*/}
       </Fragment>
     )
   },

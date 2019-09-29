@@ -41,7 +41,7 @@ const reducer: React.Reducer<IExtendedSchema, ISchemaAction> = (
       const { uniqueId } = action.payload
       const clonedState = clone(state)
       return deepMapObj(clonedState, (value, key, obj) => {
-        if (!isPlainObj(value)) {
+        if (!isPlainObj(value) || !value.uniqueId || !uniqueId) {
           return
         }
         if (value.uniqueId === uniqueId) {
@@ -53,7 +53,7 @@ const reducer: React.Reducer<IExtendedSchema, ISchemaAction> = (
       const { property, uniqueId } = action.payload
       const clonedState = clone(state)
       return deepMapObj(clonedState, value => {
-        if (!isPlainObj(value)) {
+        if (!isPlainObj(value) || !value.uniqueId || !uniqueId) {
           return
         }
         if (value.uniqueId === uniqueId) {
@@ -68,7 +68,7 @@ const reducer: React.Reducer<IExtendedSchema, ISchemaAction> = (
       const { property, uniqueId } = action.payload
       const clonedState = clone(state)
       return deepMapObj(clonedState, value => {
-        if (!isPlainObj(value)) {
+        if (!isPlainObj(value) || !value.uniqueId || !uniqueId) {
           return
         }
         if (value.uniqueId === uniqueId) {
