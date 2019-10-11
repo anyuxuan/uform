@@ -57,10 +57,19 @@ const reducer: React.Reducer<IExtendedSchema, ISchemaAction> = (
           return
         }
         if (value.uniqueId === uniqueId) {
-          return {
+          const ret = {
             ...value,
             ...property
           }
+          const { 'x-props': prevProps } = value
+          const { 'x-props': currProps } = property
+          if (prevProps && currProps) {
+            ret['x-props'] = {
+              ...prevProps,
+              ...currProps
+            }
+          }
+          return ret
         }
       })
     }

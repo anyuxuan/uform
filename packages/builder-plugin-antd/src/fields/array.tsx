@@ -32,7 +32,18 @@ registerComponent('array', {
           name="minItems"
           x-component="number"
         />
-        {/*<Field />*/}
+        <Field
+          type="array"
+          title="数组项"
+          name="items"
+          x-props={{
+            className: 'fields-array-item'
+          }}
+        >
+          <Field type="string" title="字段一" />
+        </Field>
+        <Field type="string" title="添加按钮文案" name="addBtnText" />
+        <Field type="string" title="删除按钮文案" name="removeBtnText" />
       </Fragment>
     )
   },

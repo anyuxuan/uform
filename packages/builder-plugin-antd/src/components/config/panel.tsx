@@ -121,6 +121,24 @@ const ConfigPanel = ({ props, ctx }) => {
               actions.alterField({ minItems: value })
             })
 
+            $('onFieldChange', 'addBtnText').subscribe(fieldProps => {
+              const { value } = fieldProps
+              actions.alterField({
+                'x-props': {
+                  renderAddition: value
+                }
+              })
+            })
+
+            $('onFieldChange', 'removeBtnText').subscribe(fieldProps => {
+              const { value } = fieldProps
+              actions.alterField({
+                'x-props': {
+                  renderRemove: value
+                }
+              })
+            })
+
             $('onFieldChange', 'required').subscribe(fieldProps => {
               const { value } = fieldProps
               actions.alterField({ required: value })

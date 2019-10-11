@@ -2,6 +2,7 @@ import React from 'react'
 import {
   AsidePanel,
   FieldPanel,
+  CodePanel,
   PreviewPanel,
   ConfigPanel,
   BasicLayout,
@@ -28,6 +29,7 @@ class Demo extends React.Component {
         <BuilderContextProvider actions={actions}>
           <BasicLayout>
             <AsidePanel />
+            <CodePanel />
             <FieldPanel />
             <PreviewPanel />
             <ConfigPanel />

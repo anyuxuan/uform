@@ -17,7 +17,8 @@ export const Container = styled.div`
     bottom: 0;
   }
 
-  .field-panel {
+  .field-panel,
+  .code-panel {
     position: absolute;
     top: 0;
     left: 49px;
